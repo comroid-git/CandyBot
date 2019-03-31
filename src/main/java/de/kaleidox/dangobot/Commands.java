@@ -42,7 +42,7 @@ public enum Commands {
 
         return DefaultEmbedFactory.INSTANCE.get()
                 .setAuthor(user)
-                .setDescription("Invite link: https://discordapp.com/oauth2/authorize?client_id=487745829617139722&scope=bot&permissions=85056");
+                .setDescription("GitHub Issue Tracker: https://github.com/burdoto/DangoBot/issues");
     }
 
     @Command(aliases = {"own", "self"},
