@@ -15,6 +15,7 @@ import de.kaleidox.javacord.util.server.properties.ServerPropertiesManager;
 
 import org.javacord.api.DiscordApi;
 import org.javacord.api.DiscordApiBuilder;
+import org.javacord.api.entity.activity.ActivityType;
 import org.javacord.api.entity.message.embed.EmbedBuilder;
 import org.javacord.api.entity.user.UserStatus;
 import org.javacord.api.util.logging.ExceptionLogger;
@@ -88,7 +89,7 @@ public final class DangoBot {
         Runtime.getRuntime().addShutdownHook(new Thread(DangoBot::terminateAll));
         API.getThreadPool().getScheduler().scheduleAtFixedRate(DangoBot::storeAllData, 5, 5, TimeUnit.MINUTES);
 
-        API.updateActivity("with your messages!");
+        API.updateActivity(ActivityType.LISTENING, "to d!help");
         API.updateStatus(UserStatus.ONLINE);
     }
 
