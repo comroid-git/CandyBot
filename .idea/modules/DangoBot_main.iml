@@ -15,8 +15,8 @@
     <orderEntry type="library" name="Gradle: com.fasterxml.jackson.core:jackson-databind:2.9.3" level="project" />
     <orderEntry type="library" name="Gradle: com.fasterxml.jackson.core:jackson-annotations:2.9.0" level="project" />
     <orderEntry type="library" name="Gradle: com.fasterxml.jackson.core:jackson-core:2.9.3" level="project" />
-    <orderEntry type="library" name="Gradle: org.javacord:javacord-api:3.0.4-SNAPSHOT" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Gradle: org.apache.logging.log4j:log4j-core:2.11.0" level="project" />
+    <orderEntry type="library" name="Gradle: org.javacord:javacord-api:3.0.4-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Gradle: com.vdurmont:emoji-java:4.0.0" level="project" />
     <orderEntry type="library" name="Gradle: com.squareup.okhttp3:logging-interceptor:3.9.1" level="project" />
     <orderEntry type="library" name="Gradle: com.squareup.okhttp3:okhttp:3.9.1" level="project" />
