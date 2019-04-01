@@ -4,8 +4,6 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/DangoBot.iml" filepath="$PROJECT_DIR$/.idea/modules/DangoBot.iml" />
       <module fileurl="file://$PROJECT_DIR$/DangoBot.iml" filepath="$PROJECT_DIR$/DangoBot.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/DangoBot_main.iml" filepath="$PROJECT_DIR$/.idea/modules/DangoBot_main.iml" group="DangoBot" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/DangoBot_test.iml" filepath="$PROJECT_DIR$/.idea/modules/DangoBot_test.iml" group="DangoBot" />
     </modules>
   </component>
 </project>
