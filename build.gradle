@@ -1,5 +1,5 @@
 group 'de.kaleidox'
-version '2.00'
+version '2.01'
 
 apply plugin: 'java'
 apply plugin: 'application'
@@ -8,8 +8,8 @@ sourceCompatibility = 1.8
 targetCompatibility = 1.8
 mainClassName = 'de.kaleidox.DangoBot'
 
-task wrapper(type: Wrapper) {
-    gradleVersion = '4.10.2'
+wrapper {
+    gradleVersion = '5.2'
     distributionUrl = "https://services.gradle.org/distributions/gradle-$gradleVersion-all.zip"
 }
 
@@ -25,9 +25,8 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.github.burdoto:javacord-utilities:896c2dad02'
+    implementation 'com.github.burdoto:javacord-utilities:6da876a525'
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.9.3'
-
     implementation 'org.javacord:javacord:3.0.+'
     implementation 'de.kaleidox:kalutils:0.4.1'
 
