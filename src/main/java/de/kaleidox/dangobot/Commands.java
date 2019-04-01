@@ -19,22 +19,31 @@ import org.javacord.api.entity.user.User;
 public enum Commands {
     INSTANCE;
 
-    @Command(aliases = "invite",
-            usage = "invite",
-            description = "Sends a link to add the bot to your servers!")
-    public EmbedBuilder invite(Command.Parameters param) {
+    @Command(usage = "about", description = "Information around the bot!")
+    public void about(Command.Parameters param) {
         User user = param.getCommandExecutor().flatMap(MessageAuthor::asUser).orElse(null);
 
-        if (user == null) return null;
+        if (user == null) return;
 
-        return DefaultEmbedFactory.INSTANCE.get()
+        user.sendMessage(DefaultEmbedFactory.INSTANCE.get()
                 .setAuthor(user)
-                .setDescription("Invite link: https://discordapp.com/oauth2/authorize?client_id=487745829617139722&scope=bot&permissions=85056");
+                .addField("Bot Invite Link", "https://discordapp.com/oauth2/authorize?client_id=487745829617139722&scope=bot&permissions=85056")
+                .addField("GitHub Issue Tracker", "https://github.com/burdoto/DangoBot/issues")
+                .addField("Support Discord server", "https://discord.gg/fGNcvNY"));
     }
 
-    @Command(aliases = {"bug", "issues"},
-            usage = "bug",
-            description = "Sends a link to where you can report bugs!")
+    @Command(usage = "invite", description = "Sends a link to add the bot to your servers!")
+    public void invite(Command.Parameters param) {
+        User user = param.getCommandExecutor().flatMap(MessageAuthor::asUser).orElse(null);
+
+        if (user == null) return;
+
+        user.sendMessage(DefaultEmbedFactory.INSTANCE.get()
+                .setAuthor(user)
+                .setDescription("Invite link: https://discordapp.com/oauth2/authorize?client_id=487745829617139722&scope=bot&permissions=85056"));
+    }
+
+    @Command(aliases = {"bug", "issues"}, usage = "bug", description = "Sends a link to where you can report bugs!")
     public EmbedBuilder bugs(Command.Parameters param) {
         User user = param.getCommandExecutor().flatMap(MessageAuthor::asUser).orElse(null);
 

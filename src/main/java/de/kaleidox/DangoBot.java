@@ -4,6 +4,7 @@ import java.awt.Color;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
 import de.kaleidox.dangobot.Commands;
@@ -67,18 +68,26 @@ public final class DangoBot {
                     }
                 }, 5, 5, TimeUnit.MINUTES);
 
-        PROP.register("bot.customprefix", "!dango ");
-        PROP.register("dango.emoji", "\uD83C\uDF61");
-        PROP.register("dango.limit", 100);
-
-        DefaultEmbedFactory.INSTANCE.setEmbedSupplier(() -> new EmbedBuilder().setColor(THEME));
-
         CMD = new CommandHandler(API);
         CMD.autoDeleteResponseOnCommandDeletion = true;
         CMD.prefixes = new String[]{"d!", "!dango "};
         CMD.useDefaultHelp(null);
         CMD.registerCommands(Commands.INSTANCE);
-        CMD.useCustomPrefixes(PROP.getProperty("bot.customprefix"), false);
+
+        PROP.register("bot.customprefix", "!dango ")
+                .setDisplayName("Custom Prefix")
+                .setDescription("A custom prefix for the bot.");
+        PROP.register("dango.emoji", "\uD83C\uDF61")
+                .setDisplayName("Server Emoji")
+                .setDescription("The emoji that represents the score.");
+        PROP.register("dango.limit", 100)
+                .setDisplayName("Counter Limit")
+                .setDescription("How many messages have to be sent until a point is given.");
+
+        CMD.useCustomPrefixes(Objects.requireNonNull(PROP.getProperty("bot.customprefix")), false);
+        PROP.usePropertyCommand(null, CMD);
+
+        DefaultEmbedFactory.setEmbedSupplier(() -> new EmbedBuilder().setColor(THEME));
     }
 
     public static void main(String[] args) throws Exception {
