@@ -1,5 +1,5 @@
 group 'de.kaleidox'
-version '2.01'
+version '2.04'
 
 apply plugin: 'java'
 apply plugin: 'application'
@@ -25,7 +25,9 @@ repositories {
 }
 
 dependencies {
-    implementation 'com.github.burdoto:javacord-utilities:6da876a525'
+    //implementation fileTree("A:/Workspaces/javacord-utilities/build/libs")
+    implementation 'com.github.burdoto:javacord-utilities:5685099af9'
+    implementation 'com.github.DiscordBotList:DBL-Java-Library:2.0.1'
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.9.3'
     implementation 'org.javacord:javacord:3.0.+'
     implementation 'de.kaleidox:kalutils:0.4.1'
