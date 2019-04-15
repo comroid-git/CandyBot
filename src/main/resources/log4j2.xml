@@ -10,8 +10,8 @@
     </Appenders>
     <Loggers>
         <Root level="trace">
-            <AppenderRef ref="Console" />
-            <AppenderRef ref="logfile" />
+            <AppenderRef ref="Console" level="info" />
+            <AppenderRef ref="logfile" level="error" />
         </Root>
     </Loggers>
 </Configuration>
