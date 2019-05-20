@@ -2,8 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/DangoBot.iml" filepath="$PROJECT_DIR$/.idea/modules/DangoBot.iml" />
-      <module fileurl="file://$PROJECT_DIR$/DangoBot.iml" filepath="$PROJECT_DIR$/DangoBot.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/DangoBot.iml" filepath="$PROJECT_DIR$/.idea/modules/DangoBot.iml" group="DangoBot" />
     </modules>
   </component>
 </project>
