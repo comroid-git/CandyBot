@@ -8,12 +8,13 @@ import java.io.IOException;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
-import de.kaleidox.dangobot.Commands;
 import de.kaleidox.dangobot.DangoBank;
 import de.kaleidox.dangobot.Engine;
+import de.kaleidox.dangobot.command.BasicCommands;
+import de.kaleidox.dangobot.command.DangoCommands;
 import de.kaleidox.javacord.util.commands.CommandHandler;
-import de.kaleidox.javacord.util.embed.DefaultEmbedFactory;
 import de.kaleidox.javacord.util.server.properties.ServerPropertiesManager;
+import de.kaleidox.javacord.util.ui.embed.DefaultEmbedFactory;
 
 import org.discordbots.api.client.DiscordBotListAPI;
 import org.javacord.api.DiscordApi;
@@ -85,9 +86,7 @@ public final class DangoBot {
         }
 
         try {
-            File file = new File("data/serverProps.json");
-            file.createNewFile();
-            PROP = new ServerPropertiesManager(file);
+            PROP = new ServerPropertiesManager(new File("data/serverProps.json"));
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
@@ -105,7 +104,8 @@ public final class DangoBot {
         CMD.autoDeleteResponseOnCommandDeletion = true;
         CMD.prefixes = new String[]{"d!", "!dango "};
         CMD.useDefaultHelp(null);
-        CMD.registerCommands(Commands.INSTANCE);
+        CMD.registerCommands(BasicCommands.INSTANCE);
+        CMD.registerCommands(DangoCommands.INSTANCE);
 
         PROP.register("bot.customprefix", "!dango ")
                 .setDisplayName("Custom Prefix")
@@ -138,7 +138,7 @@ public final class DangoBot {
     private static void terminateAll() {
         try {
             DangoBank.INSTANCE.terminate();
-            PROP.terminate();
+            PROP.close();
         } catch (IOException e) {
             throw new RuntimeException(e);
         }
