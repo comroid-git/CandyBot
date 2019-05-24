@@ -37,10 +37,9 @@ public final class DangoBot {
     static {
         StringBuilder token = new StringBuilder();
 
-        try {
-            File tokenFile = new File("data/token.cred");
-            System.out.println("Looking for token file at: " + tokenFile.getAbsolutePath());
-            FileInputStream stream = new FileInputStream(tokenFile);
+        File tokenFile = new File("data/token.cred");
+        System.out.println("Looking for token file at: " + tokenFile.getAbsolutePath());
+        try (FileInputStream stream = new FileInputStream(tokenFile)) {
             int r;
             while ((r = stream.read()) != -1) token.append((char) r);
         } catch (IOException e) {
@@ -59,11 +58,10 @@ public final class DangoBot {
         DiscordBotListAPI dblapi = null;
 
         if (API.getYourself().getId() == BOT_ID) {
-            try {
-                token = new StringBuilder();
-                File tokenFile = new File("data/token_dbl.cred");
-                System.out.println("Looking for token file at: " + tokenFile.getAbsolutePath());
-                FileInputStream stream = new FileInputStream(tokenFile);
+            token = new StringBuilder();
+            tokenFile = new File("data/token_dbl.cred");
+            System.out.println("Looking for token file at: " + tokenFile.getAbsolutePath());
+            try (FileInputStream stream = new FileInputStream(tokenFile)) {
                 int r;
                 while ((r = stream.read()) != -1) token.append((char) r);
             } catch (FileNotFoundException ignored) {
