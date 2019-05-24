@@ -13,10 +13,12 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="library" name="Gradle: com.github.burdoto:javacord-utilities:5685099af9" level="project" />
+    <orderEntry type="library" name="Gradle: de.kaleidox:javacord-utilities:1.0.0" level="project" />
     <orderEntry type="library" name="Gradle: com.github.DiscordBotList:DBL-Java-Library:2.0.1" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Gradle: com.fasterxml.jackson.core:jackson-databind:2.9.3" level="project" />
-    <orderEntry type="library" name="Gradle: de.kaleidox:kalutils:0.4.1" level="project" />
+    <orderEntry type="library" name="Gradle: de.kaleidox:kalutils:0.4.2" level="project" />
+    <orderEntry type="library" name="Gradle: org.javacord:javacord-api:3.0.5-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Gradle: org.apache.logging.log4j:log4j-api:2.11.0" level="project" />
     <orderEntry type="library" name="Gradle: org.slf4j:slf4j-api:1.7.25" level="project" />
     <orderEntry type="library" name="Gradle: org.json:json:20180130" level="project" />
     <orderEntry type="library" name="Gradle: com.squareup.okhttp3:okhttp:3.11.0" level="project" />
@@ -24,23 +26,22 @@
     <orderEntry type="library" name="Gradle: com.google.code.gson:gson:2.8.5" level="project" />
     <orderEntry type="library" name="Gradle: com.fasterxml.jackson.core:jackson-annotations:2.9.0" level="project" />
     <orderEntry type="library" scope="PROVIDED" name="Gradle: com.fasterxml.jackson.core:jackson-core:2.9.3" level="project" />
-    <orderEntry type="library" name="Gradle: org.javacord:javacord-api:3.0.5-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Gradle: com.squareup.okio:okio:1.14.0" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Gradle: org.javacord:javacord-core:3.0.5-SNAPSHOT" level="project" />
-    <orderEntry type="library" scope="RUNTIME" name="Gradle: com.fasterxml.jackson.core:jackson-databind:2.9.8" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Gradle: com.fasterxml.jackson.core:jackson-databind:2.9.9" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Gradle: org.apache.logging.log4j:log4j-core:2.11.0" level="project" />
-    <orderEntry type="library" scope="RUNTIME" name="Gradle: org.apache.logging.log4j:log4j-api:2.11.0" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Gradle: com.vdurmont:emoji-java:4.0.0" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Gradle: com.squareup.okhttp3:logging-interceptor:3.9.1" level="project" />
-    <orderEntry type="library" scope="RUNTIME" name="Gradle: com.fasterxml.jackson.core:jackson-core:2.9.8" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Gradle: com.intellij:annotations:12.0" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Gradle: com.fasterxml.jackson.core:jackson-core:2.9.9" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Gradle: com.neovisionaries:nv-websocket-client:2.6" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: org.javacord:javacord-core:3.0.5-SNAPSHOT" level="project" />
-    <orderEntry type="library" scope="TEST" name="Gradle: com.fasterxml.jackson.core:jackson-databind:2.9.8" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: com.fasterxml.jackson.core:jackson-databind:2.9.9" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: org.apache.logging.log4j:log4j-core:2.11.0" level="project" />
-    <orderEntry type="library" scope="TEST" name="Gradle: org.apache.logging.log4j:log4j-api:2.11.0" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: com.vdurmont:emoji-java:4.0.0" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: com.squareup.okhttp3:logging-interceptor:3.9.1" level="project" />
-    <orderEntry type="library" scope="TEST" name="Gradle: com.fasterxml.jackson.core:jackson-core:2.9.8" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: com.intellij:annotations:12.0" level="project" />
+    <orderEntry type="library" scope="TEST" name="Gradle: com.fasterxml.jackson.core:jackson-core:2.9.9" level="project" />
     <orderEntry type="library" scope="TEST" name="Gradle: com.neovisionaries:nv-websocket-client:2.6" level="project" />
   </component>
 </module>
