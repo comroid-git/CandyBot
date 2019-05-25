@@ -1,5 +1,5 @@
 group 'de.kaleidox'
-version '2.05'
+version '2.10'
 
 apply plugin: 'java'
 apply plugin: 'application'
@@ -25,12 +25,20 @@ repositories {
 }
 
 dependencies {
-    //implementation fileTree("A:/Workspaces/javacord-utilities/build/libs")
-    implementation 'de.kaleidox:javacord-utilities:1.0.0'
+    // Javacord
+    //implementation 'org.javacord:javacord:3.0.+'
+    implementation 'com.github.burdoto:Javacord:437e5907f9'
+
+    // Javacord Utilities
+    //implementation('de.kaleidox:javacord-utilities:1.0.0')
+    //        { exclude group: 'org.javacord' }
+    implementation('com.github.burdoto:javacord-utilities:1.0.1')
+            { exclude group: 'org.javacord' }
+
+    // Other dependencies
     implementation 'com.github.DiscordBotList:DBL-Java-Library:2.0.1'
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.9.3'
-    implementation 'org.javacord:javacord:3.0.+'
-    implementation 'de.kaleidox:kalutils:0.4.1'
 
+    // Runtime logger dependency
     runtimeOnly 'org.apache.logging.log4j:log4j-core:2.11.0'
 }

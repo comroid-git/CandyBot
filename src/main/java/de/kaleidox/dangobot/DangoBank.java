@@ -11,6 +11,7 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.concurrent.ConcurrentHashMap;
 
+import de.kaleidox.util.files.FileProvider;
 import de.kaleidox.util.helpers.JsonHelper;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -28,7 +29,7 @@ import static de.kaleidox.util.helpers.JsonHelper.nodeOf;
 public enum DangoBank {
     INSTANCE;
 
-    private final File storageFile = new File("data/scores.json");
+    private final File storageFile = FileProvider.getFile("data/scores.json");
     private final Map<Server, Map<Integer, List<User>>> scoreMap = new ConcurrentHashMap<>();
     private DiscordApi api;
 
