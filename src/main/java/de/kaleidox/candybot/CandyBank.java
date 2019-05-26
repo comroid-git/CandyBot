@@ -1,4 +1,4 @@
-package de.kaleidox.dangobot;
+package de.kaleidox.candybot;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -26,7 +26,7 @@ import org.javacord.api.util.logging.ExceptionLogger;
 import static java.nio.charset.StandardCharsets.UTF_8;
 import static de.kaleidox.util.helpers.JsonHelper.nodeOf;
 
-public enum DangoBank {
+public enum CandyBank {
     INSTANCE;
 
     private final File storageFile = FileProvider.getFile("data/scores.json");

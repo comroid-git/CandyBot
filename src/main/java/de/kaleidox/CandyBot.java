@@ -8,11 +8,11 @@ import java.io.IOException;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
-import de.kaleidox.dangobot.DangoBank;
-import de.kaleidox.dangobot.Engine;
-import de.kaleidox.dangobot.command.AdminCommands;
-import de.kaleidox.dangobot.command.BasicCommands;
-import de.kaleidox.dangobot.command.DangoCommands;
+import de.kaleidox.candybot.CandyBank;
+import de.kaleidox.candybot.Engine;
+import de.kaleidox.candybot.command.AdminCommands;
+import de.kaleidox.candybot.command.BasicCommands;
+import de.kaleidox.candybot.command.CandyCommands;
 import de.kaleidox.javacord.util.commands.CommandHandler;
 import de.kaleidox.javacord.util.server.properties.ServerPropertiesManager;
 import de.kaleidox.javacord.util.ui.embed.DefaultEmbedFactory;
@@ -27,7 +27,7 @@ import org.javacord.api.entity.message.embed.EmbedBuilder;
 import org.javacord.api.entity.user.UserStatus;
 import org.javacord.api.util.logging.ExceptionLogger;
 
-public final class DangoBot {
+public final class CandyBot {
     public final static Color THEME = new Color(0x34A6FF);
 
     public static final long BOT_ID = 487745829617139722L;
@@ -63,21 +63,21 @@ public final class DangoBot {
             DefaultEmbedFactory.setEmbedSupplier(() -> new EmbedBuilder().setColor(THEME));
 
             CMD = new CommandHandler(API);
-            CMD.prefixes = new String[]{"dango!", "d!"};
+            CMD.prefixes = new String[]{"candy!"};
             CMD.useDefaultHelp(null);
             CMD.registerCommands(BasicCommands.INSTANCE);
-            CMD.registerCommands(DangoCommands.INSTANCE);
+            CMD.registerCommands(CandyCommands.INSTANCE);
             CMD.registerCommands(AdminCommands.INSTANCE);
 
             PROP = new ServerPropertiesManager(FileProvider.getFile("data/serverProps.json"));
             PROP.usePropertyCommand(null, CMD);
-            PROP.register("bot.customprefix", "!dango ")
+            PROP.register("bot.customprefix", "!candy ")
                     .setDisplayName("Custom Prefix")
                     .setDescription("A custom prefix for the bot.");
-            PROP.register("dango.emoji", "\uD83C\uDF61")
+            PROP.register("candy.emoji", "\uD83C\uDF68")
                     .setDisplayName("Server Emoji")
                     .setDescription("The emoji that represents the score.");
-            PROP.register("dango.limit", 100)
+            PROP.register("candy.limit", 100)
                     .setDisplayName("Counter Limit")
                     .setDescription("How many messages have to be sent until a point is given.");
 
@@ -85,10 +85,10 @@ public final class DangoBot {
 
             API.getThreadPool()
                     .getScheduler()
-                    .scheduleAtFixedRate(DangoBot::storeAllData, 5, 5, TimeUnit.MINUTES);
-            Runtime.getRuntime().addShutdownHook(new Thread(DangoBot::terminateAll));
+                    .scheduleAtFixedRate(CandyBot::storeAllData, 5, 5, TimeUnit.MINUTES);
+            Runtime.getRuntime().addShutdownHook(new Thread(CandyBot::terminateAll));
 
-            API.updateActivity(ActivityType.LISTENING, "dango!help");
+            API.updateActivity(ActivityType.LISTENING, "candy!help");
             API.updateStatus(UserStatus.ONLINE);
         } catch (Exception e) {
             throw new RuntimeException("Error in initializer", e);
@@ -96,14 +96,14 @@ public final class DangoBot {
     }
 
     public static void main(String[] args) throws Exception {
-        DangoBank.INSTANCE.init(API);
+        CandyBank.INSTANCE.init(API);
 
         API.addListener(Engine.INSTANCE);
     }
 
     private static void terminateAll() {
         try {
-            DangoBank.INSTANCE.terminate();
+            CandyBank.INSTANCE.terminate();
             PROP.close();
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -112,7 +112,7 @@ public final class DangoBot {
 
     private static void storeAllData() {
         try {
-            DangoBank.INSTANCE.storeData();
+            CandyBank.INSTANCE.storeData();
             PROP.storeData();
         } catch (Exception e) {
             throw new RuntimeException(e);

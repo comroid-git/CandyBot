@@ -1,10 +1,10 @@
-package de.kaleidox.dangobot.command;
+package de.kaleidox.candybot.command;
 
 import java.util.List;
 import java.util.Map;
 
-import de.kaleidox.DangoBot;
-import de.kaleidox.dangobot.DangoBank;
+import de.kaleidox.CandyBot;
+import de.kaleidox.candybot.CandyBank;
 import de.kaleidox.javacord.util.commands.Command;
 import de.kaleidox.javacord.util.commands.CommandGroup;
 import de.kaleidox.javacord.util.ui.embed.DefaultEmbedFactory;
@@ -15,21 +15,21 @@ import org.javacord.api.entity.message.embed.EmbedBuilder;
 import org.javacord.api.entity.server.Server;
 import org.javacord.api.entity.user.User;
 
-@CommandGroup(name = "Dango Commands", description = "Commands for interacting with DangoBot")
-public enum DangoCommands {
+@CommandGroup(name = "Candy Commands", description = "Commands for interacting with CandyBot")
+public enum CandyCommands {
     INSTANCE;
 
     @Command(aliases = {"own", "self"},
             usage = "self",
-            description = "Shows your own dango score.",
+            description = "Shows your own candy score.",
             enablePrivateChat = false)
     public EmbedBuilder own(Server server, User user) {
         if (user == null) return null;
 
         return DefaultEmbedFactory.INSTANCE.get()
                 .setAuthor(user)
-                .setDescription("Your score: " + DangoBank.INSTANCE.getScore(server, user) + " "
-                        + DangoBot.PROP.getProperty("dango.emoji").getValue(server.getId()).asString()
+                .setDescription("Your score: " + CandyBank.INSTANCE.getScore(server, user) + " "
+                        + CandyBot.PROP.getProperty("candy.emoji").getValue(server.getId()).asString()
                 );
     }
 
@@ -41,7 +41,7 @@ public enum DangoCommands {
         if (user == null) return null;
         PagedEmbed pagedEmbed = new PagedEmbed(textChannel);
 
-        Map<Integer, List<User>> best = DangoBank.INSTANCE.getBest(server);
+        Map<Integer, List<User>> best = CandyBank.INSTANCE.getBest(server);
         if (best.size() > 0) {
             int count = 1;
             for (Map.Entry<Integer, List<User>> entry : best.entrySet()) {
@@ -55,7 +55,7 @@ public enum DangoCommands {
 
                 pagedEmbed.addField(
                         "__#" + (count++) + "__ - Score: " + score + " "
-                                + DangoBot.PROP.getProperty("dango.emoji").getValue(server.getId()).asString(),
+                                + CandyBot.PROP.getProperty("candy.emoji").getValue(server.getId()).asString(),
                         sb.toString()
                 );
             }

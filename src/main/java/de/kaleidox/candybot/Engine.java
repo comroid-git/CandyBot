@@ -1,9 +1,9 @@
-package de.kaleidox.dangobot;
+package de.kaleidox.candybot;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import de.kaleidox.DangoBot;
+import de.kaleidox.CandyBot;
 
 import org.javacord.api.entity.server.Server;
 import org.javacord.api.entity.user.User;
@@ -31,14 +31,14 @@ public enum Engine implements MessageCreateListener {
                 return counter + 1;
             });
 
-        if (counters.get(server) >= DangoBot.PROP.getProperty("dango.limit").getValue(server.getId()).asInt()) {
+        if (counters.get(server) >= CandyBot.PROP.getProperty("candy.limit").getValue(server.getId()).asInt()) {
             counters.computeIfPresent(server, (k, v) -> 0);
 
-            DangoBank.INSTANCE.increment(server, user);
+            CandyBank.INSTANCE.increment(server, user);
 
             event.getChannel()
-                    .sendMessage(DangoBot.PROP
-                            .getProperty("dango.emoji")
+                    .sendMessage(CandyBot.PROP
+                            .getProperty("candy.emoji")
                             .getValue(server.getId())
                             .asString())
                     .exceptionally(ExceptionLogger.get());

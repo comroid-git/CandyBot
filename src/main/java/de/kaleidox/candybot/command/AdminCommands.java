@@ -1,4 +1,4 @@
-package de.kaleidox.dangobot.command;
+package de.kaleidox.candybot.command;
 
 import de.kaleidox.javacord.util.commands.Command;
 

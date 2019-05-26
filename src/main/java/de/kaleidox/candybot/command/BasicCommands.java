@@ -1,4 +1,4 @@
-package de.kaleidox.dangobot.command;
+package de.kaleidox.candybot.command;
 
 import de.kaleidox.javacord.util.commands.Command;
 import de.kaleidox.javacord.util.commands.CommandGroup;
@@ -23,7 +23,7 @@ public enum BasicCommands {
         user.sendMessage(DefaultEmbedFactory.INSTANCE.get()
                 .setAuthor(user)
                 .addField("Bot Invite Link", INVITE_LINK)
-                .addField("GitHub Issue Tracker", "https://github.com/burdoto/DangoBot/issues")
+                .addField("GitHub Issue Tracker", "https://github.com/burdoto/CandyBot/issues")
                 .addField("Support Discord server", "https://discord.gg/fGNcvNY"));
     }
 
@@ -41,6 +41,6 @@ public enum BasicCommands {
 
         return DefaultEmbedFactory.INSTANCE.get()
                 .setAuthor(user)
-                .setDescription("GitHub Issue Tracker: https://github.com/burdoto/DangoBot/issues");
+                .setDescription("GitHub Issue Tracker: https://github.com/burdoto/CandyBot/issues");
     }
 }
