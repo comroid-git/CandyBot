@@ -26,17 +26,19 @@ repositories {
 
 dependencies {
     // Javacord
-    //implementation 'org.javacord:javacord:3.0.+'
-    implementation 'com.github.burdoto:Javacord:437e5907f9'
+    implementation 'org.javacord:javacord:3.0.+'
+
 
     // Javacord Utilities
-    //implementation('de.kaleidox:javacord-utilities:1.0.0')
-    //        { exclude group: 'org.javacord' }
-    implementation('com.github.burdoto:javacord-utilities:1.0.1')
-            { exclude group: 'org.javacord' }
+    implementation('de.kaleidox:javacord-utilities:1.0.2rev1')
+    { exclude group: 'org.javacord' }
 
+    // BotList artifact
+    //implementation 'de.kaleidox:discordbotlist-stats-javacord:0.1.2'
+    implementation 'com.github.burdoto.discordbotlist-stats:discordbotlist-stats-core:0.1.2'
+    implementation 'com.github.burdoto.discordbotlist-stats:discordbotlist-stats-javacord:0.1.2'
+    
     // Other dependencies
-    implementation 'com.github.DiscordBotList:DBL-Java-Library:2.0.1'
     implementation 'com.fasterxml.jackson.core:jackson-databind:2.9.3'
 
     // Runtime logger dependency
