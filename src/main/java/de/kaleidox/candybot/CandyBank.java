@@ -11,8 +11,8 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.concurrent.ConcurrentHashMap;
 
+import de.kaleidox.util.Util;
 import de.kaleidox.util.files.FileProvider;
-import de.kaleidox.util.helpers.JsonHelper;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -24,7 +24,7 @@ import org.javacord.api.entity.user.User;
 import org.javacord.api.util.logging.ExceptionLogger;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static de.kaleidox.util.helpers.JsonHelper.nodeOf;
+import static de.kaleidox.util.Util.nodeOf;
 
 public enum CandyBank {
     INSTANCE;
@@ -106,7 +106,7 @@ public enum CandyBank {
         if (!storageFile.exists()) storageFile.createNewFile();
         else if (storageFile.delete()) storageFile.createNewFile();
 
-        ArrayNode data = JsonHelper.arrayNode();
+        ArrayNode data = Util.arrayNode();
 
         scoreMap.forEach((server, userMap) -> {
             ObjectNode serverNode = data.addObject();
