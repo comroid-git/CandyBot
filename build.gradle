@@ -35,7 +35,7 @@ dependencies {
 
     // BotList artifact
     //implementation 'de.kaleidox:discordbotlist-stats-javacord:0.1.2'
-    implementation 'com.github.burdoto.discordbotlist-stats:discordbotlist-stats-core:0.1.2'
+    implementation 'com.github.burdoto.discordbotlist-stats:discordbotlist-stats-core:4'
     implementation 'com.github.burdoto.discordbotlist-stats:discordbotlist-stats-javacord:4'
     
     // Other dependencies
