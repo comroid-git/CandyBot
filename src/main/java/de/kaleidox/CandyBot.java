@@ -8,6 +8,9 @@ import java.io.IOException;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 
+import de.kaleidox.botstats.BotListSettings;
+import de.kaleidox.botstats.javacord.JavacordStatsClient;
+import de.kaleidox.botstats.model.StatsClient;
 import de.kaleidox.candybot.CandyBank;
 import de.kaleidox.candybot.Engine;
 import de.kaleidox.candybot.command.AdminCommands;
@@ -19,7 +22,6 @@ import de.kaleidox.javacord.util.ui.embed.DefaultEmbedFactory;
 import de.kaleidox.util.files.FileProvider;
 import de.kaleidox.util.files.OSValidator;
 
-import org.discordbots.api.client.DiscordBotListAPI;
 import org.javacord.api.DiscordApi;
 import org.javacord.api.DiscordApiBuilder;
 import org.javacord.api.entity.activity.ActivityType;
@@ -35,7 +37,7 @@ public final class CandyBot {
     public static final DiscordApi API;
     public static final CommandHandler CMD;
     public static final ServerPropertiesManager PROP;
-    public static final DiscordBotListAPI DBL_API;
+    public static final StatsClient STAT;
 
     static {
         try {
@@ -50,15 +52,10 @@ public final class CandyBot {
             API.updateStatus(UserStatus.DO_NOT_DISTURB);
             API.updateActivity("Booting up...");
 
-            if (OSValidator.isUnix()) {
-                DBL_API = new DiscordBotListAPI.Builder()
-                        .token(new BufferedReader(new FileReader(FileProvider.getFile("login/token_dbl.cred"))).readLine())
-                        .botId(API.getYourself().getIdAsString())
-                        .build();
-
-                API.addServerJoinListener(event -> DBL_API.setStats(API.getServers().size()));
-                API.addServerLeaveListener(event -> DBL_API.setStats(API.getServers().size()));
-            } else DBL_API = null;
+            STAT = new JavacordStatsClient(BotListSettings.builder()
+                    .postStatsTester(OSValidator::isUnix)
+                    .discordbotlist_com_token(new BufferedReader(new FileReader(FileProvider.getFile("login/token_dbl.cred"))).readLine())
+                    .build(), API);
 
             DefaultEmbedFactory.setEmbedSupplier(() -> new EmbedBuilder().setColor(THEME));
 
