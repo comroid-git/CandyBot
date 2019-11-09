@@ -28,15 +28,12 @@ dependencies {
     // Javacord
     implementation 'org.javacord:javacord:3.0.+'
 
-
     // Javacord Utilities
-    implementation('de.kaleidox:javacord-utilities:1.0.2rev1')
-    { exclude group: 'org.javacord' }
+    implementation('de.comroid:javacord-utilities:1.1.0')
+            { exclude group: 'org.javacord' }
 
     // BotList artifact
-    //implementation 'de.kaleidox:discordbotlist-stats-javacord:0.1.2'
-    implementation 'com.github.burdoto.discordbotlist-stats:discordbotlist-stats-core:5'
-    implementation 'com.github.burdoto.discordbotlist-stats:discordbotlist-stats-javacord:4'
+    implementation 'de.kaleidox:discordbotlist-stats-javacord:0.1.3'
     
     // Other dependencies
     implementation 'com.fasterxml.jackson.core:jackson-databind:3.0.0-SNAPSHOT'

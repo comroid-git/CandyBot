@@ -11,7 +11,7 @@ import java.util.Map;
 import java.util.TreeMap;
 import java.util.concurrent.ConcurrentHashMap;
 
-import de.kaleidox.util.Util;
+import de.comroid.util.Util;
 import de.kaleidox.util.files.FileProvider;
 
 import com.fasterxml.jackson.databind.JsonNode;
@@ -24,7 +24,7 @@ import org.javacord.api.entity.user.User;
 import org.javacord.api.util.logging.ExceptionLogger;
 
 import static java.nio.charset.StandardCharsets.UTF_8;
-import static de.kaleidox.util.Util.nodeOf;
+import static de.comroid.util.Util.nodeOf;
 
 public enum CandyBank {
     INSTANCE;

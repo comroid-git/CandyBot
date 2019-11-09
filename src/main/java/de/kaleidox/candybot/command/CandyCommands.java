@@ -5,10 +5,10 @@ import java.util.Map;
 
 import de.kaleidox.CandyBot;
 import de.kaleidox.candybot.CandyBank;
-import de.kaleidox.javacord.util.commands.Command;
-import de.kaleidox.javacord.util.commands.CommandGroup;
-import de.kaleidox.javacord.util.ui.embed.DefaultEmbedFactory;
-import de.kaleidox.javacord.util.ui.messages.paging.PagedEmbed;
+import de.comroid.javacord.util.commands.Command;
+import de.comroid.javacord.util.commands.CommandGroup;
+import de.comroid.javacord.util.ui.embed.DefaultEmbedFactory;
+import de.comroid.javacord.util.ui.messages.paging.PagedEmbed;
 
 import org.javacord.api.entity.channel.ServerTextChannel;
 import org.javacord.api.entity.message.embed.EmbedBuilder;

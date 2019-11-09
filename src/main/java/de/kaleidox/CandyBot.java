@@ -16,9 +16,10 @@ import de.kaleidox.candybot.Engine;
 import de.kaleidox.candybot.command.AdminCommands;
 import de.kaleidox.candybot.command.BasicCommands;
 import de.kaleidox.candybot.command.CandyCommands;
-import de.kaleidox.javacord.util.commands.CommandHandler;
-import de.kaleidox.javacord.util.server.properties.ServerPropertiesManager;
-import de.kaleidox.javacord.util.ui.embed.DefaultEmbedFactory;
+import de.comroid.eval.EvalCommand;
+import de.comroid.javacord.util.commands.CommandHandler;
+import de.comroid.javacord.util.server.properties.ServerPropertiesManager;
+import de.comroid.javacord.util.ui.embed.DefaultEmbedFactory;
 import de.kaleidox.util.files.FileProvider;
 import de.kaleidox.util.files.OSValidator;
 
@@ -65,20 +66,22 @@ public final class CandyBot {
             CMD.registerCommands(BasicCommands.INSTANCE);
             CMD.registerCommands(CandyCommands.INSTANCE);
             CMD.registerCommands(AdminCommands.INSTANCE);
+            
+            CMD.registerCommands(EvalCommand.INSTANCE);
 
             PROP = new ServerPropertiesManager(FileProvider.getFile("data/serverProps.json"));
             PROP.usePropertyCommand(null, CMD);
             PROP.register("bot.customprefix", "!candy ")
-                    .setDisplayName("Custom Prefix")
-                    .setDescription("A custom prefix for the bot.");
+                    .withDisplayName("Custom Prefix")
+                    .withDescription("A custom prefix for the bot.");
             PROP.register("candy.emoji", "\uD83C\uDF68")
-                    .setDisplayName("Server Emoji")
-                    .setDescription("The emoji that represents the score.");
+                    .withDisplayName("Server Emoji")
+                    .withDescription("The emoji that represents the score.");
             PROP.register("candy.limit", 100)
-                    .setDisplayName("Counter Limit")
-                    .setDescription("How many messages have to be sent until a point is given.");
+                    .withDisplayName("Counter Limit")
+                    .withDescription("How many messages have to be sent until a point is given.");
 
-            CMD.useCustomPrefixes(Objects.requireNonNull(PROP.getProperty("bot.customprefix")), false);
+            CMD.withCustomPrefixProvider(Objects.requireNonNull(PROP.getProperty("bot.customprefix")));
 
             API.getThreadPool()
                     .getScheduler()
