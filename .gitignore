@@ -108,3 +108,5 @@ gradle-app.setting
 **.cred
 **.json
 **.log
+
+.idea/
