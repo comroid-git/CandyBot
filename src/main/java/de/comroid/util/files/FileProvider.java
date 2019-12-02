@@ -4,11 +4,14 @@ import java.io.File;
 import java.io.IOException;
 import java.util.stream.IntStream;
 
+import static java.io.File.separator;
+import static java.io.File.separatorChar;
+
 public class FileProvider {
     private final static String PREFIX = "/app/data/";
 
     public static File getFile(String subPath) {
-        final String path = (PREFIX + subPath).replace('/', '\\');
+        final String path = (PREFIX + subPath).replace('/', separatorChar);
         System.out.printf("Acquiring File [ %s ]\n", path);
 
         createDirs(path);
@@ -20,12 +23,12 @@ public class FileProvider {
 
             try {
                 if (!file.createNewFile()) {
-                    System.out.printf("Could not create File [ %s ]. Exiting.\n", path);
+                    System.out.printf(" FAIL: Could not create File [ %s ] for unknown reason. Exiting.\n", path);
                     System.exit(1);
                     return null; // lol
-                } else System.out.printf("Created missing File: [ %s ]\n", path);
+                } else System.out.print(" OK!\n");
             } catch (IOException e) {
-                System.out.printf(String.format("An [ %s ] occurred creating File [ %s ]. Exiting.\n", e.getClass().getSimpleName(), path), path);
+                System.out.printf(" FAIL: An [ %s ] occurred creating File [ %s ]. Exiting.\n", e.getClass().getSimpleName(), path);
                 e.printStackTrace(System.out);
                 System.exit(1);
                 return null; // lol
@@ -38,7 +41,7 @@ public class FileProvider {
     private static void createDirs(final String forPath) {
         System.out.printf("Checking directories for file [ %s ]...", forPath);
 
-        final String[] paths = forPath.split(File.pathSeparator);
+        final String[] paths = forPath.split(separator);
 
         if (paths.length <= 1) {
             System.out.printf(" OK! [ %d ]\n", paths.length);
@@ -53,7 +56,7 @@ public class FileProvider {
                     System.arraycopy(paths, 0, myPath, 0, value);
                     return myPath;
                 })
-                .map(strs -> String.join(File.pathSeparator, strs))
+                .map(strs -> String.join(separator, strs))
                 .filter(str -> !str.isBlank())
                 .forEachOrdered(path -> {
                     final File file = new File(path);
@@ -62,7 +65,7 @@ public class FileProvider {
                         return;
 
                     printed[0]++;
-                    System.out.printf(" FAIL\nDirectory [ %s ] does not exist, trying to create it...\n", path);
+                    System.out.printf(" FAIL\nDirectory [ %s ] does not exist, trying to create it...", path);
 
                     if (file.mkdir()) {
                         printed[0]++;

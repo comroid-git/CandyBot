@@ -11,7 +11,7 @@ RUN chmod -R 777 /app/*
 USER exec
 WORKDIR /app
 
-RUN ls -AlhX
-
 # GO
 ENTRYPOINT /app/binaries/bin/CandyBot
+
+RUN ls -alhXR . && echo \## END

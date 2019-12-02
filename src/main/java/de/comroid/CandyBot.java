@@ -43,7 +43,8 @@ public final class CandyBot {
     static {
         try {
             File file = FileProvider.getFile("login/token.cred");
-            System.out.println("Looking for token file at " + file.getAbsolutePath());
+            System.out.println("file = " + file);
+            System.out.println("Looking for token file at " + file.getCanonicalPath());
             API = new DiscordApiBuilder()
                     .setToken(new BufferedReader(new FileReader(file)).readLine())
                     .login()
@@ -69,7 +70,7 @@ public final class CandyBot {
 
             CMD.registerCommands(EvalCommand.INSTANCE);
 
-            PROP = new ServerPropertiesManager(FileProvider.getFile("data/serverProps.json"));
+            PROP = new ServerPropertiesManager(FileProvider.getFile("serverProps.json"));
             PROP.usePropertyCommand(null, CMD);
             PROP.register("bot.customprefix", "!candy ")
                     .withDisplayName("Custom Prefix")
