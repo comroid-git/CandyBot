@@ -1,4 +1,4 @@
-package de.kaleidox;
+package de.comroid;
 
 import java.awt.Color;
 import java.io.BufferedReader;
@@ -11,17 +11,17 @@ import java.util.concurrent.TimeUnit;
 import de.kaleidox.botstats.BotListSettings;
 import de.kaleidox.botstats.javacord.JavacordStatsClient;
 import de.kaleidox.botstats.model.StatsClient;
-import de.kaleidox.candybot.CandyBank;
-import de.kaleidox.candybot.Engine;
-import de.kaleidox.candybot.command.AdminCommands;
-import de.kaleidox.candybot.command.BasicCommands;
-import de.kaleidox.candybot.command.CandyCommands;
+import de.comroid.candybot.CandyBank;
+import de.comroid.candybot.Engine;
+import de.comroid.candybot.command.AdminCommands;
+import de.comroid.candybot.command.BasicCommands;
+import de.comroid.candybot.command.CandyCommands;
 import de.comroid.eval.EvalCommand;
 import de.comroid.javacord.util.commands.CommandHandler;
 import de.comroid.javacord.util.server.properties.ServerPropertiesManager;
 import de.comroid.javacord.util.ui.embed.DefaultEmbedFactory;
-import de.kaleidox.util.files.FileProvider;
-import de.kaleidox.util.files.OSValidator;
+import de.comroid.util.files.FileProvider;
+import de.comroid.util.files.OSValidator;
 
 import org.javacord.api.DiscordApi;
 import org.javacord.api.DiscordApiBuilder;
@@ -55,7 +55,7 @@ public final class CandyBot {
 
             STAT = new JavacordStatsClient(BotListSettings.builder()
                     .postStatsTester(OSValidator::isUnix)
-                    .discordbotlist_com_token(new BufferedReader(new FileReader(FileProvider.getFile("login/token_dbl.cred"))).readLine())
+                    .tokenFile(FileProvider.getFile("login/botlists.properties"))
                     .build(), API);
 
             DefaultEmbedFactory.setEmbedSupplier(() -> new EmbedBuilder().setColor(THEME));
@@ -66,7 +66,7 @@ public final class CandyBot {
             CMD.registerCommands(BasicCommands.INSTANCE);
             CMD.registerCommands(CandyCommands.INSTANCE);
             CMD.registerCommands(AdminCommands.INSTANCE);
-            
+
             CMD.registerCommands(EvalCommand.INSTANCE);
 
             PROP = new ServerPropertiesManager(FileProvider.getFile("data/serverProps.json"));

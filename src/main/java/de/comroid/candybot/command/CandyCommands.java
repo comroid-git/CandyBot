@@ -1,10 +1,10 @@
-package de.kaleidox.candybot.command;
+package de.comroid.candybot.command;
 
 import java.util.List;
 import java.util.Map;
 
-import de.kaleidox.CandyBot;
-import de.kaleidox.candybot.CandyBank;
+import de.comroid.CandyBot;
+import de.comroid.candybot.CandyBank;
 import de.comroid.javacord.util.commands.Command;
 import de.comroid.javacord.util.commands.CommandGroup;
 import de.comroid.javacord.util.ui.embed.DefaultEmbedFactory;

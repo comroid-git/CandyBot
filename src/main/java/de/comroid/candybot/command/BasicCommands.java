@@ -1,4 +1,4 @@
-package de.kaleidox.candybot.command;
+package de.comroid.candybot.command;
 
 import de.comroid.javacord.util.commands.Command;
 import de.comroid.javacord.util.commands.CommandGroup;

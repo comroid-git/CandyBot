@@ -1,9 +1,9 @@
-package de.kaleidox.candybot;
+package de.comroid.candybot;
 
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 
-import de.kaleidox.CandyBot;
+import de.comroid.CandyBot;
 
 import org.javacord.api.entity.server.Server;
 import org.javacord.api.entity.user.User;

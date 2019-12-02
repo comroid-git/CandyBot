@@ -1,4 +1,4 @@
-package de.kaleidox.candybot;
+package de.comroid.candybot;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -12,7 +12,7 @@ import java.util.TreeMap;
 import java.util.concurrent.ConcurrentHashMap;
 
 import de.comroid.util.Util;
-import de.kaleidox.util.files.FileProvider;
+import de.comroid.util.files.FileProvider;
 
 import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -29,7 +29,7 @@ import static de.comroid.util.Util.nodeOf;
 public enum CandyBank {
     INSTANCE;
 
-    private final File storageFile = FileProvider.getFile("data/scores.json");
+    private final File storageFile = FileProvider.getFile("scores.json");
     private final Map<Server, Map<Integer, List<User>>> scoreMap = new ConcurrentHashMap<>();
     private DiscordApi api;
 
