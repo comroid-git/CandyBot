@@ -5,6 +5,8 @@ import discord4j.rest.util.Snowflake;
 import org.comroid.CandyBot;
 import org.comroid.common.Polyfill;
 import org.comroid.common.func.Invocable;
+import org.comroid.common.iter.ReferenceIndex;
+import org.comroid.common.iter.Span;
 import org.comroid.uniform.adapter.json.fastjson.FastJSONLib;
 import org.comroid.uniform.node.UniObjectNode;
 import org.comroid.uniform.node.UniValueNode.ValueType;
@@ -36,22 +38,22 @@ public interface GuildConfiguration extends DataContainer<CandyBot> {
         return wrap(Bind.Emoji).orElse(CandyBot.DEFAULT_EMOJI);
     }
 
-    default List<UserScore> getScores() {
+    default Span<UserScore> getScores() {
         return requireNonNull(Bind.Scores);
     }
 
     interface Bind {
         @RootBind
         GroupBind<GuildConfiguration, CandyBot> Root
-                = new GroupBind<>(FastJSONLib.fastJsonLib, "server_configuration", Invocable.ofConstructor(Polyfill.uncheckedCast(Basic.class)));
+                = new GroupBind<>(FastJSONLib.fastJsonLib, "server_configuration", Invocable.ofConstructor(Polyfill.<Class<GuildConfiguration>>uncheckedCast(Basic.class)));
         VarBind.DependentTwoStage<Long, CandyBot, Guild> Guild
                 = Root.bindDependent("guild", ValueType.LONG, (bot, id) -> bot.client.getGuildById(Snowflake.of(id)).block());
         VarBind.OneStage<Integer> Limit
                 = Root.bind1stage("limit", ValueType.INTEGER);
         VarBind.OneStage<String> Emoji
                 = Root.bind1stage("emoji", ValueType.STRING);
-        ArrayBind.DependentTwoStage<UniObjectNode, CandyBot, UserScore, List<UserScore>> Scores
-                = Root.listDependent("scores", UserScore.Bind.Root, LinkedList::new);
+        ArrayBind.DependentTwoStage<UniObjectNode, CandyBot, UserScore, Span<UserScore>> Scores
+                = Root.listDependent("scores", UserScore.Bind.Root, () -> new Span<>(ReferenceIndex.of(new LinkedList<>()), Span.ModifyPolicy.SKIP_NULLS));
     }
 
     final class Basic extends DataContainerBase<CandyBot> implements GuildConfiguration {

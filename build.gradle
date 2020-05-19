@@ -5,16 +5,14 @@ version '2.20'
 
 apply from: 'gradle/ext.gradle'
 
-sourceCompatibility = 1.8
-targetCompatibility = 1.8
+sourceCompatibility = 11
+targetCompatibility = 11
 mainClassName = "${group}.CandyBot"
 
 wrapper {
     gradleVersion = '5.6'
     distributionUrl = "https://services.gradle.org/distributions/gradle-$gradleVersion-all.zip"
 }
-
-apply from: 'gradle/docker.gradle'
 
 tasks.withType(JavaCompile) {
     options.encoding = 'UTF-8'
@@ -44,4 +42,8 @@ dependencies {
 
     // Json Serializer
     implementation 'com.alibaba:fastjson:1.2.68'
+
+    // Flogger
+    implementation 'com.google.flogger:flogger:0.5.1'
+    runtimeOnly 'com.google.flogger:flogger-system-backend:0.5.1'
 }

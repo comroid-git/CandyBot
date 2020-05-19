@@ -3,6 +3,8 @@ package org.comroid.candybot;
 import discord4j.core.object.entity.User;
 import discord4j.rest.util.Snowflake;
 import org.comroid.CandyBot;
+import org.comroid.common.Polyfill;
+import org.comroid.common.func.Invocable;
 import org.comroid.uniform.adapter.json.fastjson.FastJSONLib;
 import org.comroid.uniform.node.UniObjectNode;
 import org.comroid.uniform.node.UniValueNode.ValueType;
@@ -33,7 +35,7 @@ public interface UserScore extends DataContainer<CandyBot>, Comparable<UserScore
 
     interface Bind {
         GroupBind<UserScore, CandyBot> Root
-                = new GroupBind<>(FastJSONLib.fastJsonLib, "user_score");
+                = new GroupBind<>(FastJSONLib.fastJsonLib, "user_score", Invocable.ofConstructor(Polyfill.<Class<UserScore>>uncheckedCast(Basic.class)));
         VarBind.DependentTwoStage<Long, CandyBot, User> User
                 = Root.bindDependent("user", ValueType.LONG, (bot, id) -> bot.client.getUserById(Snowflake.of(id)).block());
         VarBind.OneStage<Integer> Score
