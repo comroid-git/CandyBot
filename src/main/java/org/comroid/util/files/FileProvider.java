@@ -1,4 +1,4 @@
-package de.comroid.util.files;
+package org.comroid.util.files;
 
 import java.io.File;
 import java.io.IOException;
@@ -41,7 +41,7 @@ public class FileProvider {
     private static void createDirs(final String forPath) {
         System.out.printf("Checking directories for file [ %s ]...", forPath);
 
-        final String[] paths = forPath.split(separator);
+        final String[] paths = forPath.split(separator.equals("\\") ? separator + separator : separator);
 
         if (paths.length <= 1) {
             System.out.printf(" OK! [ %d ]\n", paths.length);

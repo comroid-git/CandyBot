@@ -1,6 +1,6 @@
 apply plugin: 'application'
 
-group 'de.comroid'
+group 'org.comroid'
 version '2.20'
 
 apply from: 'gradle/ext.gradle'
@@ -22,25 +22,26 @@ tasks.withType(JavaCompile) {
 }
 
 repositories {
+    mavenLocal()
+    maven {
+        url "https://maven.jetbrains.space/comroid/repo"
+        credentials.username "Anonymous.User"
+        credentials.password "anonymous"
+    }
     jcenter()
-    maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
-    maven { url "https://jitpack.io" }
 }
 
 dependencies {
-    // Javacord
-    implementation 'org.javacord:javacord:3.0.+'
-
-    // Javacord Utilities
-    implementation('de.comroid:javacord-utilities:1.1.0')
-            { exclude group: 'org.javacord' }
+    // Discord4J
+    implementation 'com.discord4j:discord4j-core:3.1.0.RC1'
 
     // BotList artifact
-    implementation 'de.kaleidox:discordbotlist-stats-javacord:0.1.3'
-    
-    // Other dependencies
-    implementation 'com.fasterxml.jackson.core:jackson-databind:3.0.0-SNAPSHOT'
+    implementation 'de.kaleidox:discordbotlist-stats-discord4j:0.1.3'
 
-    // Runtime logger dependency
-    runtimeOnly 'org.apache.logging.log4j:log4j-core:2.12.1'
+    // comroid utilities
+    implementation 'org.comroid:common-util:1.5.0-SNAPSHOT'
+    implementation 'org.comroid:uniform:1.0.0-SNAPSHOT'
+
+    // Json Serializer
+    implementation 'com.alibaba:fastjson:1.2.68'
 }
