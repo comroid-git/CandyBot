@@ -89,7 +89,7 @@ public final class CandyBot {
                     .scheduleAtFixedRate(CandyBot::storeAllData, 5, 5, TimeUnit.MINUTES);
             Runtime.getRuntime().addShutdownHook(new Thread(CandyBot::terminateAll));
 
-            API.updateActivity(ActivityType.LISTENING, "candy!help");
+            API.updateActivity(ActivityType.PLAYING, "fucker still wont save your properties, sorry");
             API.updateStatus(UserStatus.ONLINE);
         } catch (Exception e) {
             throw new RuntimeException("Error in initializer", e);
