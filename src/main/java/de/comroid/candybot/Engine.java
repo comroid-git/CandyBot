@@ -14,7 +14,7 @@ import org.javacord.api.util.logging.ExceptionLogger;
 public enum Engine implements MessageCreateListener {
     INSTANCE;
 
-    private Map<Server, Integer> counters = new ConcurrentHashMap<>();
+    private final Map<Server, Integer> counters = new ConcurrentHashMap<>();
 
     @Override
     public void onMessageCreate(MessageCreateEvent event) {
