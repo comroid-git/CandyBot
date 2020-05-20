@@ -20,7 +20,7 @@ import java.util.Comparator;
 
 @Location(UserScore.Bind.class)
 public interface UserScore extends DataContainer<CandyBot>, Comparable<UserScore> {
-    Comparator<UserScore> USER_SCORE_COMPARATOR = Comparator.comparingInt(UserScore::getScore).reversed();
+    Comparator<UserScore> USER_SCORE_COMPARATOR = Comparator.comparingInt(UserScore::getScore);
 
     default User getUser() {
         return requireNonNull(Bind.User, "No user found with ID " + getExtractionReference(Bind.User)
