@@ -1,6 +1,8 @@
 package org.comroid.candybot;
 
 import discord4j.core.object.entity.Guild;
+import discord4j.core.object.entity.Member;
+import discord4j.core.object.entity.User;
 import discord4j.rest.util.Snowflake;
 import org.comroid.CandyBot;
 import org.comroid.common.Polyfill;
@@ -14,9 +16,11 @@ import org.comroid.varbind.annotation.Location;
 import org.comroid.varbind.annotation.RootBind;
 import org.comroid.varbind.bind.ArrayBind;
 import org.comroid.varbind.bind.GroupBind;
+import org.comroid.varbind.bind.ReBind;
 import org.comroid.varbind.bind.VarBind;
 import org.comroid.varbind.container.DataContainer;
 import org.comroid.varbind.container.DataContainerBase;
+import org.comroid.varbind.container.DataContainerBuilder;
 
 import java.util.LinkedList;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -30,7 +34,7 @@ public interface GuildConfiguration extends DataContainer<CandyBot> {
     }
 
     default int getLimit() {
-        return wrap(Bind.Limit).orElse(100);
+        return wrap(Bind.Limit).orElse(5);
     }
 
     default String getEmoji() {
@@ -41,12 +45,21 @@ public interface GuildConfiguration extends DataContainer<CandyBot> {
         return requireNonNull(Bind.Scores);
     }
 
+    default void initScoreboard(User user) {
+        final UserScore score = new UserScoreBuilder(getDependent())
+                .setUser(user)
+                .setScore(1)
+                .build();
+    }
+
     interface Bind {
         @RootBind
         GroupBind<GuildConfiguration, CandyBot> Root
                 = new GroupBind<>(FastJSONLib.fastJsonLib, "server_configuration", Invocable.ofConstructor(Polyfill.<Class<GuildConfiguration>>uncheckedCast(Basic.class)));
-        VarBind.DependentTwoStage<Long, CandyBot, Guild> Guild
-                = Root.bindDependent("guild", ValueType.LONG, (bot, id) -> bot.client.getGuildById(Snowflake.of(id)).block());
+        VarBind.OneStage<Long> GuildId
+                = Root.bind1stage("guild", ValueType.LONG);
+        ReBind.DependentTwoStage<Long, CandyBot, Guild> Guild
+                = GuildId.rebindDependent((id, bot) -> bot.client.getGuildById(Snowflake.of(id)).block());
         VarBind.OneStage<Integer> Limit
                 = Root.bind1stage("limit", ValueType.INTEGER);
         VarBind.OneStage<String> Emoji

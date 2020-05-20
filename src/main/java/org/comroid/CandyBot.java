@@ -12,21 +12,23 @@ import discord4j.core.object.entity.channel.GuildMessageChannel;
 import discord4j.core.object.entity.channel.MessageChannel;
 import discord4j.core.spec.EmbedCreateSpec;
 import discord4j.rest.util.Color;
-import discord4j.rest.util.Snowflake;
 import org.comroid.candybot.GuildConfiguration;
 import org.comroid.candybot.GuildConfigurationBuilder;
 import org.comroid.candybot.UserScore;
-import org.comroid.common.map.TrieStringMap;
+import org.comroid.common.Polyfill;
 import org.comroid.dreadpool.ThreadPool;
+import org.comroid.uniform.adapter.json.fastjson.FastJSONLib;
+import org.comroid.uniform.cache.FileCache;
 import org.comroid.util.files.FileProvider;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.TreeMap;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.stream.Collectors;
 
@@ -50,20 +52,30 @@ public final class CandyBot {
 
     public final ThreadPool threadPool;
     public final GatewayDiscordClient client;
-    private final Map<Guild, GuildConfiguration> configs;
+    private final FileCache<Long, GuildConfiguration, CandyBot> configs;
+    private final Object activity = Polyfill.selfawareLock();
 
     public CandyBot(String token) {
         this.threadPool = ThreadPool.fixedSize(new ThreadGroup("CandyBot"), 4);
         this.client = Objects.requireNonNull(DiscordClient.create(token)
                 .login().block(), "Client could not be initialized");
 
-        this.configs = new TrieStringMap<>(
-                guild -> guild.getId().asString(),
-                id -> client.getGuildById(Snowflake.of(id)).block()
+        this.configs = new FileCache<>(
+                FastJSONLib.fastJsonLib,
+                GuildConfiguration.Bind.GuildId,
+                FileProvider.getFile("data/guildConfigs.json"),
+                250,
+                this
         );
 
+        threadPool.scheduleAtFixedRate(this::dataCycle, 5, 5, TimeUnit.MINUTES);
+
         client.on(MessageCreateEvent.class)
-                .subscribe(this::handleMessageCreate, this::handleThrowable);
+                .subscribe(event -> {
+                    synchronized (activity) {
+                        handleMessageCreate(event);
+                    }
+                }, this::handleThrowable);
     }
 
     public static void main(final String[] args) {
@@ -72,6 +84,19 @@ public final class CandyBot {
         instance.client.onDisconnect().block();
 
         logger.at(Level.INFO).log("CANDYBOT STOPPING: DISCORD DISCONNECTED");
+    }
+
+    private void dataCycle() {
+        synchronized (activity) {
+            try {
+                logger.at(Level.INFO).log("Saving Data...");
+                configs.storeData();
+            } catch (IOException e) {
+                throw new RuntimeException("Could not store data", e);
+            } finally {
+                logger.at(Level.INFO).log("Data Saved!");
+            }
+        }
     }
 
     private void handleMessageCreate(MessageCreateEvent event) {
@@ -92,9 +117,13 @@ public final class CandyBot {
             return;
         }
 
+        final Guild guild = event.getGuild().block();
+        if (guild == null)
+            return;
+
         if (event.getMessage().getContent().startsWith("candy!")) {
             handleCommand(
-                    event.getGuild().block(),
+                    guild,
                     event.getMessage().getChannel().block(),
                     event.getMessage(),
                     event.getMember().orElseThrow()
@@ -102,9 +131,10 @@ public final class CandyBot {
             return;
         }
 
-        final GuildConfiguration configuration = compute(event.getGuild().block());
+        final GuildConfiguration configuration = compute(guild);
 
-        if (configuration.getCounter().updateAndGet(x -> x + 1) >= configuration.getLimit()) {
+        if (configuration.getCounter()
+                .updateAndGet(x -> x + 1) >= configuration.getLimit()) {
             concludeCycle(
                     configuration,
                     guildMessageChannel,
@@ -138,12 +168,12 @@ public final class CandyBot {
                                     personalizeEmbed(embed, user);
 
                                     embed.setDescription(String.format("You have %d points!", score.getScore()));
-                                }),
+                                }).subscribe(),
                                 () -> channel.createEmbed(embed -> {
                                     personalizeEmbed(embed, user);
 
                                     embed.setDescription("No scores were found for you. Sorry! :(");
-                                })
+                                }).subscribe()
                         );
                 break;
             case "candy!stats":
@@ -182,7 +212,7 @@ public final class CandyBot {
                         embed.addField("Too many scores!", "Currently, I can't display so many scores! I'm sorry.", false);
 
                     embed.setDescription(sb.toString());
-                });
+                }).subscribe();
 
                 break;
         }
@@ -199,14 +229,25 @@ public final class CandyBot {
     }
 
     private void concludeCycle(GuildConfiguration configuration, GuildMessageChannel channel, Member user) {
-        channel.createMessage(configuration.getEmoji()).block();
+        synchronized (activity) {
+            channel.createMessage(configuration.getEmoji()).block();
 
-        configuration.getCounter().set(0);
+            final Optional<UserScore> any = configuration.getScores()
+                    .stream()
+                    .filter(score -> score.getUser().equals(user))
+                    .findAny();
+
+            if (any.isEmpty())
+                configuration.initScoreboard(user);
+
+            configuration.getCounter().set(0);
+        }
     }
 
     private GuildConfiguration compute(Guild forGuild) {
-        return configs.computeIfAbsent(forGuild, nil -> new GuildConfigurationBuilder(this)
-                .setGuild(forGuild)
-                .build());
+        return configs.computeIfAbsent(forGuild.getId().asLong(),
+                () -> new GuildConfigurationBuilder(this)
+                        .setGuild(forGuild)
+                        .build());
     }
 }

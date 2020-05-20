@@ -49,4 +49,17 @@ public interface UserScore extends DataContainer<CandyBot>, Comparable<UserScore
             super(data, bot);
         }
     }
+
+    final class Local implements UserScore, DataContainer.Underlying<CandyBot> {
+        private final DataContainer<CandyBot> underlying;
+
+        @Override
+        public DataContainer<CandyBot> getUnderlyingVarCarrier() {
+            return underlying;
+        }
+
+        public Local(DataContainer<CandyBot> underlying) {
+            this.underlying = underlying;
+        }
+    }
 }
