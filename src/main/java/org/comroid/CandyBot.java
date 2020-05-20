@@ -1,6 +1,9 @@
 package org.comroid;
 
 import com.google.common.flogger.FluentLogger;
+import de.kaleidox.botstats.BotListSettings;
+import de.kaleidox.botstats.discord4j.Discord4JStatsClient;
+import de.kaleidox.botstats.model.StatsClient;
 import discord4j.core.DiscordClient;
 import discord4j.core.GatewayDiscordClient;
 import discord4j.core.event.domain.guild.GuildCreateEvent;
@@ -39,6 +42,9 @@ public final class CandyBot {
     public static final String DEFAULT_EMOJI = "\uD83C\uDF61"; //dango
     public static final Color THEME_COLOR = new Color(0xcf2f2f);
     private static final String INVITE = "https://discord.com/oauth2/authorize?client_id=487745829617139722&scope=bot&permissions=84992";
+    private static final BotListSettings BOTLIST_SETTINGS = BotListSettings.builder()
+            .tokenFile(FileProvider.getFile("login/botlists.properties"))
+            .build();
 
     static {
         try {
@@ -53,6 +59,7 @@ public final class CandyBot {
 
     public final ThreadPool threadPool;
     public final GatewayDiscordClient client;
+    //public final StatsClient stats;
     private final FileCache<Long, GuildConfiguration, CandyBot> configs;
     private final Object activity = Polyfill.selfawareLock();
 
@@ -60,7 +67,7 @@ public final class CandyBot {
         this.threadPool = ThreadPool.fixedSize(new ThreadGroup("CandyBot"), 4);
         this.client = Objects.requireNonNull(DiscordClient.create(token)
                 .login().block(), "Client could not be initialized");
-
+        //this.stats = new Discord4JStatsClient(BOTLIST_SETTINGS, (DiscordClient) client.getRestClient());
         this.configs = new FileCache<>(
                 FastJSONLib.fastJsonLib,
                 GuildConfiguration.Bind.GuildId,
