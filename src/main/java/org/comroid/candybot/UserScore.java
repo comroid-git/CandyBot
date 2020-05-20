@@ -9,6 +9,7 @@ import org.comroid.uniform.adapter.json.fastjson.FastJSONLib;
 import org.comroid.uniform.node.UniObjectNode;
 import org.comroid.uniform.node.UniValueNode.ValueType;
 import org.comroid.varbind.annotation.Location;
+import org.comroid.varbind.annotation.RootBind;
 import org.comroid.varbind.bind.GroupBind;
 import org.comroid.varbind.bind.VarBind;
 import org.comroid.varbind.container.DataContainer;
@@ -34,6 +35,7 @@ public interface UserScore extends DataContainer<CandyBot>, Comparable<UserScore
     }
 
     interface Bind {
+        @RootBind
         GroupBind<UserScore, CandyBot> Root
                 = new GroupBind<>(FastJSONLib.fastJsonLib, "user_score", Invocable.ofConstructor(Polyfill.<Class<UserScore>>uncheckedCast(Basic.class)));
         VarBind.DependentTwoStage<Long, CandyBot, User> User

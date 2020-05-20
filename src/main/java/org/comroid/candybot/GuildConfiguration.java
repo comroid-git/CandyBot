@@ -19,7 +19,6 @@ import org.comroid.varbind.container.DataContainer;
 import org.comroid.varbind.container.DataContainerBase;
 
 import java.util.LinkedList;
-import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Location(GuildConfiguration.Bind.class)
