@@ -163,6 +163,13 @@ public final class CandyBot {
         final GuildConfiguration configuration = compute(guild);
 
         switch (command.getContent()) {
+            case "candy!save":
+                try {
+                    configs.storeData();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+                break;
             case "candy!own":
             case "candy!self":
                 configuration.getScores()
@@ -245,6 +252,7 @@ public final class CandyBot {
 
             if (any.isEmpty())
                 configuration.initScoreboard(user);
+            else any.get().incrementScore();
 
             configuration.getCounter().set(0);
         }

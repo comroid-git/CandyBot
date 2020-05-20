@@ -5,9 +5,9 @@ import discord4j.rest.util.Snowflake;
 import org.comroid.CandyBot;
 import org.comroid.common.Polyfill;
 import org.comroid.common.func.Invocable;
+import org.comroid.uniform.ValueType;
 import org.comroid.uniform.adapter.json.fastjson.FastJSONLib;
 import org.comroid.uniform.node.UniObjectNode;
-import org.comroid.uniform.node.UniValueNode.ValueType;
 import org.comroid.varbind.annotation.Location;
 import org.comroid.varbind.annotation.RootBind;
 import org.comroid.varbind.bind.GroupBind;
@@ -35,6 +35,11 @@ public interface UserScore extends DataContainer<CandyBot>, Comparable<UserScore
     @Override
     default int compareTo(UserScore other) {
         return USER_SCORE_COMPARATOR.compare(this, other);
+    }
+
+    default void incrementScore() {
+        final int score = requireNonNull(Bind.Score) + 1;
+        put(Bind.Score, score);
     }
 
     interface Bind {

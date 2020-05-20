@@ -10,7 +10,7 @@ import org.comroid.common.iter.ReferenceIndex;
 import org.comroid.common.iter.Span;
 import org.comroid.uniform.adapter.json.fastjson.FastJSONLib;
 import org.comroid.uniform.node.UniObjectNode;
-import org.comroid.uniform.node.UniValueNode.ValueType;
+import org.comroid.uniform.ValueType;
 import org.comroid.varbind.annotation.Location;
 import org.comroid.varbind.annotation.RootBind;
 import org.comroid.varbind.bind.ArrayBind;
@@ -60,7 +60,8 @@ public interface GuildConfiguration extends DataContainer<CandyBot> {
             final UniObjectNode node = scores.stream()
                     .filter(us -> us.getUser().equals(user))
                     .findAny()
-                    .orElseThrow().toObjectNode();
+                    .orElseThrow()
+                    .toObjectNode(FastJSONLib.fastJsonLib);
 
             if (node == null)
                 return FastJSONLib.fastJsonLib.createUniObjectNode(null);
