@@ -163,12 +163,7 @@ public final class CandyBot {
         final GuildConfiguration configuration = compute(guild);
 
         switch (command.getContent()) {
-            case "candy!save":
-                try {
-                    configs.storeData();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+            case "candy!test":
                 break;
             case "candy!own":
             case "candy!self":
