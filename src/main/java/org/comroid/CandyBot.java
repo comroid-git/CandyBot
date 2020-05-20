@@ -68,6 +68,7 @@ public final class CandyBot {
                 250,
                 this
         );
+        Runtime.getRuntime().addShutdownHook(new Thread(this::dataCycle));
 
         threadPool.scheduleAtFixedRate(this::dataCycle, 5, 5, TimeUnit.MINUTES);
 
@@ -104,7 +105,8 @@ public final class CandyBot {
     }
 
     private void handleMessageCreate(MessageCreateEvent event) {
-        if (event.getMember().map(User::isBot).orElse(false))
+        final Optional<Member> eventMember = event.getMember();
+        if (eventMember.map(User::isBot).orElse(false))
             return;
 
         final GuildMessageChannel guildMessageChannel = event.getMessage()
@@ -130,20 +132,21 @@ public final class CandyBot {
                     guild,
                     event.getMessage().getChannel().block(),
                     event.getMessage(),
-                    event.getMember().orElseThrow()
+                    eventMember.orElseThrow()
             );
             return;
         }
 
         final GuildConfiguration configuration = compute(guild);
 
+        if (eventMember.isPresent())
         synchronized (activity) {
             if (configuration.getCounter()
                     .updateAndGet(x -> x + 1) >= configuration.getLimit()) {
                 concludeCycle(
                         configuration,
                         guildMessageChannel,
-                        event.getMember().get()
+                        eventMember.get()
                 );
             }
         }
@@ -164,6 +167,7 @@ public final class CandyBot {
 
         switch (command.getContent()) {
             case "candy!test":
+                dataCycle();
                 break;
             case "candy!own":
             case "candy!self":
