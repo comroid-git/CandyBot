@@ -22,7 +22,7 @@ public interface UserScore extends DataContainer<CandyBot>, Comparable<UserScore
     Comparator<UserScore> USER_SCORE_COMPARATOR = Comparator.comparingInt(UserScore::getScore).reversed();
 
     default User getUser() {
-        return requireNonNull(Bind.User);
+        return requireNonNull(Bind.User, "No user found with ID " + getExtractionReference(Bind.User).get());
     }
 
     default int getScore() {

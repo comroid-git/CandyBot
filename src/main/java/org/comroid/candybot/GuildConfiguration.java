@@ -1,7 +1,6 @@
 package org.comroid.candybot;
 
 import discord4j.core.object.entity.Guild;
-import discord4j.core.object.entity.Member;
 import discord4j.core.object.entity.User;
 import discord4j.rest.util.Snowflake;
 import org.comroid.CandyBot;
@@ -20,9 +19,9 @@ import org.comroid.varbind.bind.ReBind;
 import org.comroid.varbind.bind.VarBind;
 import org.comroid.varbind.container.DataContainer;
 import org.comroid.varbind.container.DataContainerBase;
-import org.comroid.varbind.container.DataContainerBuilder;
 
 import java.util.LinkedList;
+import java.util.Optional;
 import java.util.concurrent.atomic.AtomicInteger;
 
 @Location(GuildConfiguration.Bind.class)
@@ -45,11 +44,28 @@ public interface GuildConfiguration extends DataContainer<CandyBot> {
         return requireNonNull(Bind.Scores);
     }
 
+    default Optional<UserScore> getScore(User user) {
+        return getScores().stream()
+                .filter(score -> score.getUser().equals(user))
+                .findAny();
+    }
+
     default void initScoreboard(User user) {
         final UserScore score = new UserScoreBuilder(getDependent())
                 .setUser(user)
                 .setScore(1)
                 .build();
+
+        put(Bind.Scores, scores -> {
+            final UniObjectNode node = scores.stream()
+                    .filter(us -> us.getUser().equals(user))
+                    .findAny()
+                    .orElseThrow().toObjectNode();
+
+            if (node == null)
+                return FastJSONLib.fastJsonLib.createUniObjectNode(null);
+            return node;
+        }, Span.immutable(score));
     }
 
     interface Bind {
