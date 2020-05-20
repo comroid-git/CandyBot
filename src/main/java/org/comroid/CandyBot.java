@@ -137,13 +137,15 @@ public final class CandyBot {
 
         final GuildConfiguration configuration = compute(guild);
 
-        if (configuration.getCounter()
-                .updateAndGet(x -> x + 1) >= configuration.getLimit()) {
-            concludeCycle(
-                    configuration,
-                    guildMessageChannel,
-                    event.getMember().get()
-            );
+        synchronized (activity) {
+            if (configuration.getCounter()
+                    .updateAndGet(x -> x + 1) >= configuration.getLimit()) {
+                concludeCycle(
+                        configuration,
+                        guildMessageChannel,
+                        event.getMember().get()
+                );
+            }
         }
     }
 

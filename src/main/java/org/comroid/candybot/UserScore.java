@@ -15,6 +15,7 @@ import org.comroid.varbind.bind.ReBind;
 import org.comroid.varbind.bind.VarBind;
 import org.comroid.varbind.container.DataContainer;
 import org.comroid.varbind.container.DataContainerBase;
+import reactor.core.publisher.Mono;
 
 import java.util.Comparator;
 
@@ -24,8 +25,8 @@ public interface UserScore extends DataContainer<CandyBot>, Comparable<UserScore
 
     default User getUser() {
         return requireNonNull(Bind.User, "No user found with ID " + getExtractionReference(Bind.User)
-                .requireNonNull()
-                .requireNonNull());
+                .requireNonNull("Could not extract")
+                .requireNonNull("No ID present"));
     }
 
     default int getScore() {
@@ -44,7 +45,13 @@ public interface UserScore extends DataContainer<CandyBot>, Comparable<UserScore
         VarBind.OneStage<Long> UserId
                 = Root.bind1stage("user", ValueType.LONG);
         ReBind.DependentTwoStage<Long, CandyBot, User> User
-                = UserId.rebindDependent((id, bot) -> bot.client.getUserById(Snowflake.of(id)).onErrorContinue(bot::handleThrowable).block());
+                = UserId.rebindDependent((id, bot) -> {
+            final Snowflake snowflake = Snowflake.of(id);
+            final Mono<discord4j.core.object.entity.User> userById = bot.client.getUserById(snowflake);
+            final Mono<discord4j.core.object.entity.User> log = userById.log();
+            final discord4j.core.object.entity.User block = log.block();
+            return block;
+        });
         VarBind.OneStage<Integer> Score
                 = Root.bind1stage("score", ValueType.INTEGER);
     }

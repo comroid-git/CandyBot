@@ -33,7 +33,7 @@ public interface GuildConfiguration extends DataContainer<CandyBot> {
     }
 
     default int getLimit() {
-        return wrap(Bind.Limit).orElse(5);
+        return wrap(Bind.Limit).orElse(2);
     }
 
     default String getEmoji() {
