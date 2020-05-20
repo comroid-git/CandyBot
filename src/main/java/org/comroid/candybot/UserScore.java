@@ -11,6 +11,7 @@ import org.comroid.uniform.node.UniValueNode.ValueType;
 import org.comroid.varbind.annotation.Location;
 import org.comroid.varbind.annotation.RootBind;
 import org.comroid.varbind.bind.GroupBind;
+import org.comroid.varbind.bind.ReBind;
 import org.comroid.varbind.bind.VarBind;
 import org.comroid.varbind.container.DataContainer;
 import org.comroid.varbind.container.DataContainerBase;
@@ -22,7 +23,9 @@ public interface UserScore extends DataContainer<CandyBot>, Comparable<UserScore
     Comparator<UserScore> USER_SCORE_COMPARATOR = Comparator.comparingInt(UserScore::getScore).reversed();
 
     default User getUser() {
-        return requireNonNull(Bind.User, "No user found with ID " + getExtractionReference(Bind.User).get());
+        return requireNonNull(Bind.User, "No user found with ID " + getExtractionReference(Bind.User)
+                .requireNonNull()
+                .requireNonNull());
     }
 
     default int getScore() {
@@ -38,8 +41,10 @@ public interface UserScore extends DataContainer<CandyBot>, Comparable<UserScore
         @RootBind
         GroupBind<UserScore, CandyBot> Root
                 = new GroupBind<>(FastJSONLib.fastJsonLib, "user_score", Invocable.ofConstructor(Polyfill.<Class<UserScore>>uncheckedCast(Basic.class)));
-        VarBind.DependentTwoStage<Long, CandyBot, User> User
-                = Root.bindDependent("user", ValueType.LONG, (bot, id) -> bot.client.getUserById(Snowflake.of(id)).block());
+        VarBind.OneStage<Long> UserId
+                = Root.bind1stage("user", ValueType.LONG);
+        ReBind.DependentTwoStage<Long, CandyBot, User> User
+                = UserId.rebindDependent((id, bot) -> bot.client.getUserById(Snowflake.of(id)).onErrorContinue(bot::handleThrowable).block());
         VarBind.OneStage<Integer> Score
                 = Root.bind1stage("score", ValueType.INTEGER);
     }

@@ -3,6 +3,7 @@ package org.comroid;
 import com.google.common.flogger.FluentLogger;
 import discord4j.core.DiscordClient;
 import discord4j.core.GatewayDiscordClient;
+import discord4j.core.event.domain.guild.GuildCreateEvent;
 import discord4j.core.event.domain.message.MessageCreateEvent;
 import discord4j.core.object.entity.Guild;
 import discord4j.core.object.entity.Member;
@@ -69,6 +70,9 @@ public final class CandyBot {
         );
 
         threadPool.scheduleAtFixedRate(this::dataCycle, 5, 5, TimeUnit.MINUTES);
+
+        client.on(GuildCreateEvent.class)
+                .subscribe(event -> client.requestMembers(event.getGuild().getId()), this::handleThrowable);
 
         client.on(MessageCreateEvent.class)
                 .subscribe(event -> {
@@ -143,13 +147,13 @@ public final class CandyBot {
         }
     }
 
-    private void handleThrowable(Throwable throwable) {
+    public void handleThrowable(Throwable throwable) {
         logger.at(Level.SEVERE)
                 .withCause(throwable)
                 .log();
     }
 
-    private void handleThrowable(Throwable throwable, Object o) {
+    public void handleThrowable(Throwable throwable, Object o) {
         handleThrowable(throwable);
     }
 
