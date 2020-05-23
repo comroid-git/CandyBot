@@ -2,8 +2,6 @@ package org.comroid;
 
 import com.google.common.flogger.FluentLogger;
 import de.kaleidox.botstats.BotListSettings;
-import de.kaleidox.botstats.discord4j.Discord4JStatsClient;
-import de.kaleidox.botstats.model.StatsClient;
 import discord4j.core.DiscordClient;
 import discord4j.core.GatewayDiscordClient;
 import discord4j.core.event.domain.guild.GuildCreateEvent;
@@ -23,7 +21,6 @@ import org.comroid.common.Polyfill;
 import org.comroid.dreadpool.ThreadPool;
 import org.comroid.uniform.adapter.json.fastjson.FastJSONLib;
 import org.comroid.uniform.cache.FileCache;
-import org.comroid.util.files.FileProvider;
 
 import java.io.BufferedReader;
 import java.io.FileReader;
@@ -37,6 +34,7 @@ import java.util.logging.Level;
 import java.util.stream.Collectors;
 
 public final class CandyBot {
+    public static final OS
     public static final FluentLogger logger = FluentLogger.forEnclosingClass();
     public static final CandyBot instance;
     public static final String DEFAULT_EMOJI = "\uD83C\uDF61"; //dango
@@ -147,16 +145,16 @@ public final class CandyBot {
         final GuildConfiguration configuration = compute(guild);
 
         if (eventMember.isPresent())
-        synchronized (activity) {
-            if (configuration.getCounter()
-                    .updateAndGet(x -> x + 1) >= configuration.getLimit()) {
-                concludeCycle(
-                        configuration,
-                        guildMessageChannel,
-                        eventMember.get()
-                );
+            synchronized (activity) {
+                if (configuration.getCounter()
+                        .updateAndGet(x -> x + 1) >= configuration.getLimit()) {
+                    concludeCycle(
+                            configuration,
+                            guildMessageChannel,
+                            eventMember.get()
+                    );
+                }
             }
-        }
     }
 
     public void handleThrowable(Throwable throwable) {

@@ -82,7 +82,7 @@ public interface GuildConfiguration extends DataContainer<CandyBot> {
         VarBind.OneStage<String> Emoji
                 = Root.bind1stage("emoji", ValueType.STRING);
         ArrayBind.DependentTwoStage<UniObjectNode, CandyBot, UserScore, Span<UserScore>> Scores
-                = Root.listDependent("scores", UserScore.Bind.Root, () -> new Span<>(ReferenceIndex.of(new LinkedList<>()), Span.ModifyPolicy.SKIP_NULLS));
+                = Root.listDependent("scores", UserScore.Bind.Root, () -> new Span<>(ReferenceIndex.of(new LinkedList<>()), Span.DefaultModifyPolicy.SKIP_NULLS));
     }
 
     final class Basic extends DataContainerBase<CandyBot> implements GuildConfiguration {
