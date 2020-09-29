@@ -40,7 +40,7 @@ dependencies {
     // annotations
     compileOnly 'org.jetbrains:annotations:19.0.0'
 
-    implementation project(':common-util:commandline')
+    implementation project(':clipa')
 
     implementation project(':guardian:restless')
     implementation project(':guardian:uniform').sourceSets.java8compat.output.classesDirs
