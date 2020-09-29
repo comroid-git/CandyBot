@@ -49,7 +49,7 @@ dependencies {
     // Javacord + Utilities
     implementation 'org.javacord:javacord:3.0.6'
     implementation project(':javacord-utilities')
-    implementation project(':discord-ux:javacord')
+    implementation project(':botsuite:javacord')
 
     implementation 'com.google.flogger:flogger-log4j2-backend:0.5.1'
     runtimeOnly 'org.apache.logging.log4j:log4j-core:2.13.3'
