@@ -1,46 +1,57 @@
 apply plugin: 'application'
 
-group 'de.comroid'
-version '2.20'
+group 'org.comroid'
+version '3.00-SNAPSHOT'
 
-apply from: 'gradle/ext.gradle'
+apply from: 'gradle/vars.gradle'
+
+mainClassName = 'org.comroid.candybot.Bot'
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
-mainClassName = "${group}.CandyBot"
 
-wrapper {
-    gradleVersion = '5.6'
+tasks.findByName('wrapper')?.configure {
+    gradleVersion = '6.2'
     distributionUrl = "https://services.gradle.org/distributions/gradle-$gradleVersion-all.zip"
 }
 
-apply from: 'gradle/docker.gradle'
-
-tasks.withType(JavaCompile) {
-    options.encoding = 'UTF-8'
-    options.incremental = true
-}
+compileJava.options.encoding = 'UTF-8'
 
 repositories {
+    mavenLocal()
+    maven {
+        url "https://maven.jetbrains.space/comroid/release"
+        credentials.username "Anonymous.User"
+        credentials.password "anonymous"
+    }
+    maven {
+        url "https://maven.jetbrains.space/comroid/repo"
+        credentials.username "Anonymous.User"
+        credentials.password "anonymous"
+    }
     jcenter()
-    maven { url "https://oss.sonatype.org/content/repositories/snapshots/" }
-    maven { url "https://jitpack.io" }
+    maven { url 'https://www.jitpack.io' }
 }
 
+evaluationDependsOn ':guardian:uniform'
+evaluationDependsOn ':guardian:restless'
+
 dependencies {
-    // Javacord
-    implementation 'org.javacord:javacord:3.0.+'
+    // annotations
+    compileOnly 'org.jetbrains:annotations:19.0.0'
 
-    // Javacord Utilities
-    implementation('de.comroid:javacord-utilities:1.1.0')
-            { exclude group: 'org.javacord' }
+    implementation project(':common-util:commandline')
 
-    // BotList artifact
-    implementation 'de.kaleidox:discordbotlist-stats-javacord:0.1.3'
-    
-    // Other dependencies
-    implementation 'com.fasterxml.jackson.core:jackson-databind:3.0.0-SNAPSHOT'
+    implementation project(':guardian:restless')
+    implementation project(':guardian:uniform').sourceSets.java8compat.output.classesDirs
+    implementation project(':guardian:restless').sourceSets.java8compat.output.classesDirs
 
-    // Runtime logger dependency
-    runtimeOnly 'org.apache.logging.log4j:log4j-core:2.12.1'
+    // Javacord + Utilities
+    implementation 'org.javacord:javacord:3.0.6'
+    implementation project(':javacord-utilities')
+    implementation project(':discord-ux:javacord')
+
+    implementation 'com.google.flogger:flogger-log4j2-backend:0.5.1'
+    runtimeOnly 'org.apache.logging.log4j:log4j-core:2.13.3'
+    runtimeOnly 'com.squareup.okhttp3:okhttp:4.7.2'
 }
