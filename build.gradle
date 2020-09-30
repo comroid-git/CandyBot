@@ -40,16 +40,43 @@ dependencies {
     // annotations
     compileOnly 'org.jetbrains:annotations:19.0.0'
 
-    implementation project(':clipa')
+    if (isAutoDeploy) {
+        implementation 'com.github.comroid-git:cli-parser:master-SNAPSHOT'
 
-    implementation project(':guardian:restless')
-    implementation project(':guardian:uniform').sourceSets.java8compat.output.classesDirs
-    implementation project(':guardian:restless').sourceSets.java8compat.output.classesDirs
+        // status server api
+        implementation 'com.github.comroid-git:comroid.org:master-SNAPSHOT'
 
-    // Javacord + Utilities
+        // guardian
+        implementation 'com.github.comroid-git.guardian-framework:uniform:master-SNAPSHOT'
+        implementation 'com.github.comroid-git.guardian-framework:restless:master-SNAPSHOT'
+
+        // javacord Utilities
+        implementation 'com.github.comroid-git:javacord-utilities:master-SNAPSHOT'
+        implementation 'com.github.comroid-git.botsuite:dux-javacord:master-SNAPSHOT'
+    } else {
+        implementation project(':clipa')
+
+        // status server api
+        implementation project(':status:status-api')
+
+        // guardian
+        implementation project(':guardian:restless')
+        implementation project(':guardian:uniform').sourceSets.java8compat.output.classesDirs
+        implementation project(':guardian:restless').sourceSets.java8compat.output.classesDirs
+
+        // botsuite
+        implementation project(':botsuite:javacord')
+    }
+
+    // javacord
     implementation 'org.javacord:javacord:3.0.6'
-    implementation project(':javacord-utilities')
-    implementation project(':botsuite:javacord')
+
+    // skribbl zeug
+    implementation 'io.socket:socket.io-client:1.0.0'
+    implementation 'com.fasterxml.jackson.core:jackson-databind:2.11.0'
+
+    // fuzzy matcher
+    implementation 'me.xdrop:fuzzywuzzy:1.3.1'
 
     implementation 'com.google.flogger:flogger-log4j2-backend:0.5.1'
     runtimeOnly 'org.apache.logging.log4j:log4j-core:2.13.3'
