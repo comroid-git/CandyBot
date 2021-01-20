@@ -2,7 +2,7 @@ package org.comroid.candybot.bank;
 
 import org.comroid.candybot.Bot;
 import org.comroid.common.io.FileHandle;
-import org.comroid.uniform.node.impl.StandardValueType;
+import org.comroid.util.StandardValueType;
 import org.comroid.uniform.adapter.json.jackson.JacksonJSONAdapter;
 import org.comroid.varbind.FileConfiguration;
 import org.comroid.varbind.annotation.RootBind;
