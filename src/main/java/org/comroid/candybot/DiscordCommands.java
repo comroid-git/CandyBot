@@ -13,8 +13,8 @@ public final class DiscordCommands {
         throw new UnsupportedOperationException();
     }
 
-    @SlashCommand(name = "balance", description = "Balance related Commands", useGlobally = false)
-    public static final class BalanceBlob {
+    @SlashCommand(name = "stats", description = "Statistic related Commands", useGlobally = false)
+    public static final class StatsBlob {
         @SlashCommand(name = "own", description = "See own Candy stats")
         public static String own(User user, Guild guild) {
             BankVault vault = CandyBot.CANDY_BANK.getVault(guild);
@@ -32,7 +32,7 @@ public final class DiscordCommands {
         }
     }
 
-    @SlashCommand(name = "candy", description = "Candy related Commands", useGlobally = false)
+    @SlashCommand(name = "candy", description = "CandyBot Configuration related Commands", useGlobally = false)
     public static final class CandyBlob {
         @SlashCommand(name = "emoji", description = "Emoji Configuration")
         public static final class EmojiBlob {
@@ -77,6 +77,21 @@ public final class DiscordCommands {
                 BankVault vault = CandyBot.CANDY_BANK.getVault(guild);
                 vault.setLimit(100);
                 return String.format("Limit of %s changed back to default: %d", vault.getName(), vault.getLimit());
+            }
+        }
+
+        @SlashCommand(name = "global-override", description = "Global Override Configuration")
+        public static final class GlobalBlob {
+            @SlashCommand(name = "enable", description = "Enable Global Overriding")
+            public static void enable(Guild guild) {
+                BankVault vault = CandyBot.CANDY_BANK.makeVault(guild.getID());
+                vault.setUseGlobalVault(true);
+            }
+
+            @SlashCommand(name = "disable", description = "Disable Global Overriding")
+            public static void disable(Guild guild) {
+                BankVault vault = CandyBot.CANDY_BANK.makeVault(guild.getID());
+                vault.setUseGlobalVault(false);
             }
         }
     }

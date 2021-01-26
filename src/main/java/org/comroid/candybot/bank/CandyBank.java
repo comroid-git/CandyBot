@@ -6,6 +6,7 @@ import org.comroid.mutatio.ref.ReferenceMap;
 
 import java.io.Closeable;
 import java.io.IOException;
+import java.util.function.Predicate;
 
 public final class CandyBank implements Closeable {
     private final ReferenceMap<Long, BankVault> vaults = ReferenceMap.create();
@@ -26,12 +27,12 @@ public final class CandyBank implements Closeable {
     }
 
     public BankVault getVault(long id) {
-        return vaults.wrap(id).orElse(globalVault);
+        return vaults.wrap(id)
+                .filter(((Predicate<BankVault>) BankVault::usesGlobalVault).negate())
+                .orElse(globalVault);
     }
 
     public BankVault makeVault(long id) {
-        if (vaults.process(id).testIfPresent(BankVault::usesGlobalVault))
-            return globalVault;
         return vaults.computeIfAbsent(id, () -> {
             FileHandle vaultFile = vaultsDir.createSubFile(String.format("vault-%d.json", id));
             return new BankVault(id, vaultFile);

@@ -42,8 +42,8 @@ public final class CandyBot extends DiscordBotBase {
         commands.readClass(DiscordCommands.class);
         core.synchronizeGlobal().join();
 
-        CommandDefinition balance = Objects.requireNonNull(commands.getCommand("balance"));
-        commands.addGuildDefinition(736946463661359155L, balance);
+        CommandDefinition stats = Objects.requireNonNull(commands.getCommand("stats"));
+        commands.addGuildDefinition(736946463661359155L, stats);
         CommandDefinition candy = Objects.requireNonNull(commands.getCommand("candy"));
         commands.addGuildDefinition(736946463661359155L, candy);
         CommandDefinition dev = Objects.requireNonNull(commands.getCommand("dev"));

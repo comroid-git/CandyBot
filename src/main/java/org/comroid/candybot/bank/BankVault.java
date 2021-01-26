@@ -21,7 +21,7 @@ public final class BankVault implements Named, UncheckedCloseable {
 
     @Override
     public String getName() {
-        return id == 0 ? "global" : CandyBot.instance
+        return id == 0 ? "Global" : CandyBot.instance
                 .getCache()
                 .getGuild(id)
                 .map(Guild::getName)
@@ -36,6 +36,8 @@ public final class BankVault implements Named, UncheckedCloseable {
     }
 
     public void setEmoji(String emoji) {
+        if (id == 0)
+            throw new UnsupportedOperationException("Global can't be changed");
         data.put("emoji", emoji);
     }
 
@@ -46,6 +48,8 @@ public final class BankVault implements Named, UncheckedCloseable {
     }
 
     public void setUseGlobalVault(boolean state) {
+        if (id == 0)
+            throw new UnsupportedOperationException("Global can't be changed");
         data.put("usesGlobalVault", state);
     }
 
@@ -56,6 +60,8 @@ public final class BankVault implements Named, UncheckedCloseable {
     }
 
     public void setLimit(int limit) {
+        if (id == 0)
+            throw new UnsupportedOperationException("Global can't be changed");
         data.put("limit", limit);
     }
 
