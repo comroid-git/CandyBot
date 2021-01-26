@@ -5,7 +5,7 @@ version '3.00-SNAPSHOT'
 
 apply from: 'gradle/vars.gradle'
 
-mainClassName = 'org.comroid.candybot.Bot'
+mainClassName = 'org.comroid.candybot.CandyBot'
 
 sourceCompatibility = 1.8
 targetCompatibility = 1.8
@@ -37,48 +37,33 @@ evaluationDependsOn ':guardian:uniform'
 evaluationDependsOn ':guardian:restless'
 
 dependencies {
-    // annotations
     compileOnly 'org.jetbrains:annotations:19.0.0'
 
     if (isAutoDeploy) {
-        implementation 'com.github.comroid-git:cli-parser:master-SNAPSHOT'
+        implementation project(':status-api')
 
-        // status server api
-        implementation 'com.github.comroid-git:comroid.org:master-SNAPSHOT'
-
-        // guardian
         implementation 'com.github.comroid-git.guardian-framework:uniform:master-SNAPSHOT'
         implementation 'com.github.comroid-git.guardian-framework:restless:master-SNAPSHOT'
 
-        // javacord Utilities
-        implementation 'com.github.comroid-git:javacord-utilities:master-SNAPSHOT'
-        implementation 'com.github.comroid-git.botsuite:dux-javacord:master-SNAPSHOT'
-    } else {
-        implementation project(':clipa')
+        implementation 'com.github.comroid-git:cli-parser:master-SNAPSHOT'
 
-        // status server api
+        implementation 'com.github.comroid-git:CrystalShard:dev-SNAPSHOT'
+    } else {
         implementation project(':status:status-api')
 
-        // guardian
-        implementation project(':guardian:restless')
         implementation project(':guardian:uniform').sourceSets.java8compat.output.classesDirs
         implementation project(':guardian:restless').sourceSets.java8compat.output.classesDirs
 
-        // botsuite
-        implementation project(':botsuite:javacord')
+        implementation project(':clipa')
+
+        implementation project(':CrystalShard')
     }
 
-    // javacord
-    implementation 'org.javacord:javacord:3.0.6'
+    // logging dependencies
+    implementation 'org.apache.logging.log4j:log4j-api:2.11.0'
+    runtimeOnly 'org.apache.logging.log4j:log4j-core:2.11.0'
 
-    // skribbl zeug
-    implementation 'io.socket:socket.io-client:1.0.0'
-    implementation 'com.fasterxml.jackson.core:jackson-databind:2.11.0'
-
-    // fuzzy matcher
-    implementation 'me.xdrop:fuzzywuzzy:1.3.1'
-
-    implementation 'com.google.flogger:flogger-log4j2-backend:0.5.1'
-    runtimeOnly 'org.apache.logging.log4j:log4j-core:2.13.3'
-    runtimeOnly 'com.squareup.okhttp3:okhttp:4.7.2'
+    // runtime adapter dependencies
+    implementation 'com.squareup.okhttp3:okhttp:4.7.2' // todo Make Optional
+    implementation 'com.alibaba:fastjson:1.2.70'
 }
