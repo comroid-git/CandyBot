@@ -1,5 +1,7 @@
 package org.comroid.candybot.bank;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.comroid.api.Named;
 import org.comroid.api.UncheckedCloseable;
 import org.comroid.candybot.CandyBot;
@@ -100,5 +102,8 @@ public final class BankVault implements Named, UncheckedCloseable {
     @Override
     public void close() {
         file.setContent(data.toSerializedString());
+        logger.debug("Vault {} stored data", id);
     }
+
+    private static final Logger logger = LogManager.getLogger();
 }

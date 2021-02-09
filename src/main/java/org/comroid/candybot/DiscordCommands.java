@@ -99,9 +99,12 @@ public final class DiscordCommands {
     @SlashCommand(name = "dev", useGlobally = false)
     public static final class DevCommands {
         @SlashCommand
-        public static void shutdown(User user) {
-            if (user.getID() == 141476933849448448L)
-                System.exit(0);
+        public static Object shutdown(User user) {
+            if (user.getID() == 141476933849448448L) {
+                CandyBot.shutdown();
+                return "guna";
+            }
+            return new Object();
         }
 
         @SlashCommand

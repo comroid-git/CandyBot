@@ -1,5 +1,7 @@
 package org.comroid.candybot;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
 import org.comroid.candybot.bank.BankVault;
 import org.comroid.candybot.bank.CandyBank;
 import org.comroid.commandline.CommandLineArgs;
@@ -7,7 +9,6 @@ import org.comroid.common.io.FileHandle;
 import org.comroid.crystalshard.DiscordAPI;
 import org.comroid.crystalshard.DiscordBotBase;
 import org.comroid.crystalshard.entity.guild.Guild;
-import org.comroid.crystalshard.entity.user.User;
 import org.comroid.crystalshard.gateway.GatewayIntent;
 import org.comroid.crystalshard.gateway.event.dispatch.message.MessageCreateEvent;
 import org.comroid.crystalshard.ui.CommandDefinition;
@@ -23,6 +24,7 @@ public final class CandyBot extends DiscordBotBase {
     public static final FileHandle DIR_LOGIN;
     public static final CandyBank CANDY_BANK;
     public static final DiscordAPI API;
+    private static final Logger logger = LogManager.getLogger();
     public static CommandLineArgs ARGS;
     public static CandyBot instance;
 
@@ -37,19 +39,16 @@ public final class CandyBot extends DiscordBotBase {
     private CandyBot(String token) {
         super(API, token, GatewayIntent.ALL_UNPRIVILEGED);
 
-        InteractionCore core = getInteractionCore();
-        CommandSetup commands = core.getCommands();
-        commands.readClass(DiscordCommands.class);
-        core.synchronizeGlobal().join();
+        final InteractionCore core = getInteractionCore();
+        CommandSetup config = core.getCommands();
+        config.readClass(DiscordCommands.class);
 
-        CommandDefinition stats = Objects.requireNonNull(commands.getCommand("stats"));
-        commands.addGuildDefinition(736946463661359155L, stats);
-        CommandDefinition candy = Objects.requireNonNull(commands.getCommand("candy"));
-        commands.addGuildDefinition(736946463661359155L, candy);
-        CommandDefinition dev = Objects.requireNonNull(commands.getCommand("dev"));
-        commands.addGuildDefinition(736946463661359155L, dev);
-
-        core.synchronizeGuild(736946463661359155L).join();
+        CommandDefinition stats = Objects.requireNonNull(config.getCommand("stats")),
+                candy = Objects.requireNonNull(config.getCommand("candy")),
+                dev = Objects.requireNonNull(config.getCommand("dev"));
+        core.addCommandsToGuild(736946463661359155L, stats, candy, dev)
+                .thenCompose(nil -> core.synchronizeGlobal())
+                .join();
 
         getEventPipeline().flatMap(MessageCreateEvent.class)
                 .flatMap(event -> event.message)
@@ -68,17 +67,17 @@ public final class CandyBot extends DiscordBotBase {
     public static void main(String[] args) {
         ARGS = CommandLineArgs.parse(args);
 
-        Runtime.getRuntime().addShutdownHook(new Thread(CandyBot::shutdown));
-
         instance = new CandyBot(ARGS.wrap("token").orElseGet(DIR_LOGIN.createSubFile("discord.cred")::getContent));
     }
 
     public static void shutdown() {
+        logger.info("Shutting down!");
         try {
-            instance.close();
             CANDY_BANK.close();
+            API.close();
         } catch (Throwable t) {
-            throw new RuntimeException("error while closing", t);
+            logger.error("Error while shutting down", t);
         }
+        System.exit(0);
     }
 }

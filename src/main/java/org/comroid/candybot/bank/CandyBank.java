@@ -1,11 +1,16 @@
 package org.comroid.candybot.bank;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+import org.comroid.common.Disposable;
 import org.comroid.common.io.FileHandle;
 import org.comroid.crystalshard.entity.guild.Guild;
 import org.comroid.mutatio.ref.ReferenceMap;
 
 import java.io.Closeable;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.function.Predicate;
 
 public final class CandyBank implements Closeable {
@@ -39,12 +44,26 @@ public final class CandyBank implements Closeable {
         });
     }
 
+    private static final Logger logger = LogManager.getLogger();
+
     @Override
-    public void close() throws IOException {
-        // todo
-        vaults.forEach((id, vault) -> {
-            if (vault != null)
+    public void close() throws RuntimeException {
+        logger.info("Closing CandyBank");
+
+        final List<Throwable> exceptions = new ArrayList<>();
+
+        vaults.forEach((key, vault) -> {
+            try {
                 vault.close();
+            } catch (Throwable T) {
+                exceptions.add(T);
+            }
         });
+
+        if (exceptions.size() == 0)
+            return;
+        if (exceptions.size() == 1)
+            throw new RuntimeException(exceptions.get(0));
+        throw new Disposable.MultipleExceptions(String.format("Failed to close %d Vaults", exceptions.size()), exceptions);
     }
 }
