@@ -33,8 +33,12 @@ public final class BankVault implements Named, UncheckedCloseable {
     public BankVault(long id, FileHandle file) {
         this.id = id;
         this.file = file;
-        this.data = FastJSONLib.fastJsonLib.createUniObjectNode();
-        this.accounts = data.putObject("accounts");
+        this.data = file.wrapContent()
+                .ifPresentMapOrElseGet(
+                        CandyBot.API.getSerializer()::parse,
+                        CandyBot.API.getSerializer()::createUniObjectNode)
+                .asObjectNode();
+        this.accounts = data.object("accounts");
     }
 
     public void setEmoji(String emoji) {

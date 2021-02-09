@@ -32,16 +32,21 @@ public final class CandyBank implements Closeable {
     }
 
     public BankVault getVault(long id) {
+        FileHandle vaultFile = vaultsDir.createSubFile(String.format("vault-%d.json", id));
+        if (vaultFile.exists() && !vaults.containsKey(id)) {
+            BankVault vault = makeVault(id);
+            if (vault.usesGlobalVault())
+                return globalVault;
+            return vault;
+        }
         return vaults.wrap(id)
-                .filter(((Predicate<BankVault>) BankVault::usesGlobalVault).negate())
+                .filter(vault -> !vault.usesGlobalVault())
                 .orElse(globalVault);
     }
 
     public BankVault makeVault(long id) {
-        return vaults.computeIfAbsent(id, () -> {
-            FileHandle vaultFile = vaultsDir.createSubFile(String.format("vault-%d.json", id));
-            return new BankVault(id, vaultFile);
-        });
+        FileHandle vaultFile = vaultsDir.createSubFile(String.format("vault-%d.json", id));
+        return vaults.computeIfAbsent(id, () -> new BankVault(id, vaultFile));
     }
 
     private static final Logger logger = LogManager.getLogger();
