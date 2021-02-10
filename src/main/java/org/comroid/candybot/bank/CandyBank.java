@@ -8,12 +8,11 @@ import org.comroid.crystalshard.entity.guild.Guild;
 import org.comroid.mutatio.ref.ReferenceMap;
 
 import java.io.Closeable;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.function.Predicate;
 
 public final class CandyBank implements Closeable {
+    private static final Logger logger = LogManager.getLogger();
     private final ReferenceMap<Long, BankVault> vaults = ReferenceMap.create();
     private final FileHandle vaultsDir;
     private final BankVault globalVault;
@@ -48,8 +47,6 @@ public final class CandyBank implements Closeable {
         FileHandle vaultFile = vaultsDir.createSubFile(String.format("vault-%d.json", id));
         return vaults.computeIfAbsent(id, () -> new BankVault(id, vaultFile));
     }
-
-    private static final Logger logger = LogManager.getLogger();
 
     @Override
     public void close() throws RuntimeException {

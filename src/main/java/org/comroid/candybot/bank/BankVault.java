@@ -8,7 +8,6 @@ import org.comroid.candybot.CandyBot;
 import org.comroid.common.io.FileHandle;
 import org.comroid.crystalshard.entity.guild.Guild;
 import org.comroid.crystalshard.entity.user.User;
-import org.comroid.uniform.adapter.json.fastjson.FastJSONLib;
 import org.comroid.uniform.node.UniNode;
 import org.comroid.uniform.node.UniObjectNode;
 
@@ -33,12 +32,8 @@ public final class BankVault implements Named, UncheckedCloseable {
     public BankVault(long id, FileHandle file) {
         this.id = id;
         this.file = file;
-        this.data = file.wrapContent()
-                .ifPresentMapOrElseGet(
-                        CandyBot.API.getSerializer()::parse,
-                        CandyBot.API.getSerializer()::createUniObjectNode)
-                .asObjectNode();
-        this.accounts = data.object("accounts");
+        this.data = file.parse(CandyBot.API.getSerializer()).asObjectNode();
+        this.accounts = data.computeObject("accounts");
     }
 
     public void setEmoji(String emoji) {
