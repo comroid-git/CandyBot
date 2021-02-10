@@ -14,12 +14,14 @@ import org.comroid.crystalshard.gateway.event.dispatch.message.MessageCreateEven
 import org.comroid.crystalshard.ui.CommandDefinition;
 import org.comroid.crystalshard.ui.CommandSetup;
 import org.comroid.crystalshard.ui.InteractionCore;
+import org.comroid.dreadpool.pool.MonitoredThreadPool;
 import org.comroid.restless.adapter.okhttp.v4.OkHttp4Adapter;
 import org.comroid.uniform.adapter.json.fastjson.FastJSONLib;
 
 import java.util.Objects;
 
 public final class CandyBot extends DiscordBotBase {
+    public static final ThreadGroup GROUP = new ThreadGroup("candybot");
     public static final FileHandle DIR_DATA;
     public static final FileHandle DIR_LOGIN;
     public static final CandyBank CANDY_BANK;
@@ -32,7 +34,7 @@ public final class CandyBot extends DiscordBotBase {
         DIR_DATA = new FileHandle("/srv/dcb/candybot/", true);
         DIR_LOGIN = DIR_DATA.createSubDir("login");
         DiscordAPI.SERIALIZATION = FastJSONLib.fastJsonLib;
-        API = new DiscordAPI(new OkHttp4Adapter());
+        API = new DiscordAPI(new OkHttp4Adapter(), new MonitoredThreadPool(GROUP, logger, 8, 10, 30));
         CANDY_BANK = new CandyBank(DIR_DATA.createSubDir("vaults"));
     }
 

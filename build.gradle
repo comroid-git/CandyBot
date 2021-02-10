@@ -55,6 +55,7 @@ dependencies {
         implementation project(':guardian:restless').sourceSets.java8compat.output.classesDirs
 
         implementation project(':clipa')
+        implementation project(':common-util:dreadpool')
 
         implementation project(':CrystalShard')
     }
