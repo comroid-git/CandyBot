@@ -8,8 +8,11 @@ import org.comroid.commandline.CommandLineArgs;
 import org.comroid.common.io.FileHandle;
 import org.comroid.crystalshard.DiscordAPI;
 import org.comroid.crystalshard.DiscordBotBase;
+import org.comroid.crystalshard.entity.EntityType;
+import org.comroid.crystalshard.entity.Snowflake;
 import org.comroid.crystalshard.entity.guild.Guild;
 import org.comroid.crystalshard.gateway.GatewayIntent;
+import org.comroid.crystalshard.gateway.event.dispatch.guild.GuildCreateEvent;
 import org.comroid.crystalshard.gateway.event.dispatch.message.MessageCreateEvent;
 import org.comroid.crystalshard.ui.CommandDefinition;
 import org.comroid.crystalshard.ui.CommandSetup;
@@ -19,6 +22,7 @@ import org.comroid.restless.adapter.okhttp.v4.OkHttp4Adapter;
 import org.comroid.uniform.adapter.json.fastjson.FastJSONLib;
 
 import java.util.Objects;
+import java.util.concurrent.TimeUnit;
 
 public final class CandyBot extends DiscordBotBase {
     public static final ThreadGroup GROUP = new ThreadGroup("candybot");
@@ -40,6 +44,11 @@ public final class CandyBot extends DiscordBotBase {
 
     private CandyBot(String token) {
         super(API, token, GatewayIntent.ALL_UNPRIVILEGED);
+
+        getEventPipeline()
+                .flatMap(GuildCreateEvent.class)
+                .map(GuildCreateEvent::getGuild)
+                .forEach(guild -> System.out.printf("name: %s - id: %d\n", guild.getName(), guild.getID()));
 
         final InteractionCore core = getInteractionCore();
         CommandSetup config = core.getCommands();
