@@ -13,3 +13,4 @@ out/**
 
 # Docker
 run/**
+*.log
