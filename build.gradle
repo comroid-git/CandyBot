@@ -42,10 +42,10 @@ dependencies {
     compileOnly 'org.jetbrains:annotations:19.0.0'
 
     if (isAutoDeploy) {
-        implementation 'com.github.comroid-git:comroid.org:master-SNAPSHOT'
-        implementation 'com.github.comroid-git:guardian:master-SNAPSHOT'
-        implementation 'com.github.comroid-git:cli-parser:master-SNAPSHOT'
-        implementation 'com.github.comroid-git:CrystalShard:master-SNAPSHOT'
+        implementation 'org.comroid:status-api:0.+'
+        implementation 'org.comroid:restless:0.+'
+        implementation 'org.comroid:clipa:0.+'
+        implementation 'org.comroid:CrystalShard:0.+'
     } else {
         implementation project(':status:status-api')
 
@@ -53,7 +53,6 @@ dependencies {
         implementation project(':guardian:restless').sourceSets.java8compat.output.classesDirs
 
         implementation project(':clipa')
-        implementation project(':common-util:dreadpool')
 
         implementation project(':CrystalShard')
     }

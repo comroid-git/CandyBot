@@ -8,8 +8,6 @@ import org.comroid.commandline.CommandLineArgs;
 import org.comroid.common.io.FileHandle;
 import org.comroid.crystalshard.DiscordAPI;
 import org.comroid.crystalshard.DiscordBotBase;
-import org.comroid.crystalshard.entity.EntityType;
-import org.comroid.crystalshard.entity.Snowflake;
 import org.comroid.crystalshard.entity.guild.Guild;
 import org.comroid.crystalshard.gateway.GatewayIntent;
 import org.comroid.crystalshard.gateway.event.dispatch.guild.GuildCreateEvent;
@@ -17,12 +15,12 @@ import org.comroid.crystalshard.gateway.event.dispatch.message.MessageCreateEven
 import org.comroid.crystalshard.ui.CommandDefinition;
 import org.comroid.crystalshard.ui.CommandSetup;
 import org.comroid.crystalshard.ui.InteractionCore;
-import org.comroid.dreadpool.pool.MonitoredThreadPool;
 import org.comroid.restless.adapter.okhttp.v4.OkHttp4Adapter;
 import org.comroid.uniform.adapter.json.fastjson.FastJSONLib;
 
 import java.util.Objects;
-import java.util.concurrent.TimeUnit;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
 
 public final class CandyBot extends DiscordBotBase {
     public static final ThreadGroup GROUP = new ThreadGroup("candybot");
@@ -38,7 +36,9 @@ public final class CandyBot extends DiscordBotBase {
         DIR_DATA = new FileHandle("/srv/dcb/candybot/", true);
         DIR_LOGIN = DIR_DATA.createSubDir("login");
         DiscordAPI.SERIALIZATION = FastJSONLib.fastJsonLib;
-        API = new DiscordAPI(new OkHttp4Adapter(), new MonitoredThreadPool(GROUP, logger, 8, 10, 30));
+        //ScheduledExecutorService pool = new MonitoredThreadPool(GROUP, logger, 8, 10, 30);
+        ScheduledExecutorService pool = Executors.newScheduledThreadPool(8);
+        API = new DiscordAPI(new OkHttp4Adapter(), pool);
         CANDY_BANK = new CandyBank(DIR_DATA.createSubDir("vaults"));
     }
 
