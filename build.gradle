@@ -54,5 +54,5 @@ dependencies {
 
     // runtime adapter dependencies
     implementation 'com.squareup.okhttp3:okhttp:4.7.2' // todo Make Optional
-    implementation 'com.alibaba:fastjson:1.2.70'
+    implementation 'com.alibaba:fastjson:1.2.75'
 }
