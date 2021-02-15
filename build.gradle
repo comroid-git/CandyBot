@@ -44,8 +44,8 @@ dependencies {
     if (isAutoDeploy) {
         implementation 'com.github.comroid-git:comroid.org:master-SNAPSHOT'
 
-        implementation 'com.github.comroid-git.guardian-framework:uniform:master-SNAPSHOT'
-        implementation 'com.github.comroid-git.guardian-framework:restless:master-SNAPSHOT'
+        implementation 'com.github.comroid-git.guardian:uniform:master-SNAPSHOT'
+        implementation 'com.github.comroid-git.guardian:restless:master-SNAPSHOT'
 
         implementation 'com.github.comroid-git:cli-parser:master-SNAPSHOT'
 
