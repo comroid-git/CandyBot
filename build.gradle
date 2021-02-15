@@ -47,7 +47,7 @@ dependencies {
 
         implementation 'com.github.comroid-git:cli-parser:master-SNAPSHOT'
 
-        implementation 'com.github.comroid-git:CrystalShard:dev-SNAPSHOT'
+        implementation 'com.github.comroid-git:CrystalShard:master-SNAPSHOT'
     } else {
         implementation project(':status:status-api')
 
