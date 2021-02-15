@@ -33,8 +33,10 @@ repositories {
     maven { url 'https://www.jitpack.io' }
 }
 
-evaluationDependsOn ':guardian:uniform'
-evaluationDependsOn ':guardian:restless'
+if (!isAutoDeploy) {
+    evaluationDependsOn ':guardian:uniform'
+    evaluationDependsOn ':guardian:restless'
+}
 
 dependencies {
     compileOnly 'org.jetbrains:annotations:19.0.0'
