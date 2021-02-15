@@ -40,7 +40,7 @@ dependencies {
     compileOnly 'org.jetbrains:annotations:19.0.0'
 
     if (isAutoDeploy) {
-        implementation project(':status-api')
+        implementation 'com.github.comroid-git:comroid.org:master-SNAPSHOT'
 
         implementation 'com.github.comroid-git.guardian-framework:uniform:master-SNAPSHOT'
         implementation 'com.github.comroid-git.guardian-framework:restless:master-SNAPSHOT'
