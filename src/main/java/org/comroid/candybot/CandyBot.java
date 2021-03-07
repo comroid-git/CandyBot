@@ -48,7 +48,7 @@ public final class CandyBot extends DiscordBotBase {
         getEventPipeline()
                 .flatMap(GuildCreateEvent.class)
                 .map(GuildCreateEvent::getGuild)
-                .forEach(guild -> System.out.printf("name: %s - id: %d\n", guild.getName(), guild.getID()));
+                .peek(guild -> System.out.printf("name: %s - id: %d\n", guild.getName(), guild.getID()));
 
         final InteractionCore core = getInteractionCore();
         CommandSetup config = core.getCommands();
@@ -65,7 +65,7 @@ public final class CandyBot extends DiscordBotBase {
                 .flatMap(event -> event.message)
                 .filter(message -> message.guild.isNonNull())
                 .filter(message -> message.author.isNonNull())
-                .forEach(message -> {
+                .peek(message -> {
                     Guild guild = message.getGuild();
                     BankVault vault = CANDY_BANK.getVault(guild);
                     if (!vault.countUp())
