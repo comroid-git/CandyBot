@@ -93,9 +93,10 @@ public final class BankVault implements Named, UncheckedCloseable {
     }
 
     public int increment(User user) {
-        final UniNode node = accounts.get(String.valueOf(user.getID()));
-        node.asValueNode().compute(x -> ((int) x) + 1);
-        return node.asInt();
+        String key = String.valueOf(user.getID());
+        final int x = accounts.get(key).asInt() + 1;
+        accounts.put(key, x);
+        return x;
     }
 
     @Override
