@@ -48,7 +48,7 @@ public final class CandyBot extends DiscordBotBase {
         getEventPipeline()
                 .flatMap(GuildCreateEvent.class)
                 .map(GuildCreateEvent::getGuild)
-                .peek(guild -> System.out.printf("name: %s - id: %d\n", guild.getName(), guild.getID()));
+                .peek(guild -> System.out.printf("guild created: %s - id: %d\n", guild.getName(), guild.getID()));
 
         final InteractionCore core = getInteractionCore();
         CommandSetup config = core.getCommands();
