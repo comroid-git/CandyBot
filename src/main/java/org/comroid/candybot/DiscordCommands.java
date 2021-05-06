@@ -1,10 +1,8 @@
 package org.comroid.candybot;
 
 import org.comroid.candybot.bank.BankVault;
-import org.comroid.candybot.bank.CandyBank;
 import org.comroid.crystalshard.entity.guild.Guild;
 import org.comroid.crystalshard.entity.user.User;
-import org.comroid.crystalshard.model.command.CommandOptionChoice;
 import org.comroid.crystalshard.ui.annotation.Option;
 import org.comroid.crystalshard.ui.annotation.SlashCommand;
 
