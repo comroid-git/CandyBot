@@ -33,10 +33,8 @@ public final class CandyBot extends DiscordBotBase {
     static {
         DIR_DATA = new FileHandle("/srv/dcb/candybot/", true);
         DIR_LOGIN = DIR_DATA.createSubDir("login");
-        DiscordAPI.SERIALIZATION = FastJSONLib.fastJsonLib;
         //ScheduledExecutorService pool = new MonitoredThreadPool(GROUP, logger, 8, 10, 30);
-        ScheduledExecutorService pool = Executors.newScheduledThreadPool(8);
-        API = new DiscordAPI(new OkHttp4Adapter(), pool);
+        API = new DiscordAPI();
         CANDY_BANK = new CandyBank(DIR_DATA.createSubDir("vaults"));
     }
 
