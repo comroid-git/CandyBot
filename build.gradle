@@ -32,8 +32,6 @@ if (!isAutoDeploy) {
 dependencies {
     compileOnly 'org.jetbrains:annotations:19.0.0'
 
-    implementation 'org.comroid:clipa:0.+'
-
     if (isAutoDeploy) {
         implementation 'org.comroid:status-api:0.+'
         implementation 'org.comroid:restless:0.+'

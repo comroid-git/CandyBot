@@ -13,7 +13,7 @@ import java.util.List;
 
 public final class CandyBank implements Closeable {
     private static final Logger logger = LogManager.getLogger();
-    private final ReferenceMap<Long, BankVault> vaults = ReferenceMap.create();
+    private final ReferenceMap<Long, BankVault> vaults = new ReferenceMap<>();
     private final FileHandle vaultsDir;
     private final BankVault globalVault;
 

@@ -4,7 +4,6 @@ import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
 import org.comroid.candybot.bank.BankVault;
 import org.comroid.candybot.bank.CandyBank;
-import org.comroid.commandline.CommandLineArgs;
 import org.comroid.common.io.FileHandle;
 import org.comroid.crystalshard.DiscordAPI;
 import org.comroid.crystalshard.DiscordBotBase;
@@ -29,7 +28,6 @@ public final class CandyBot extends DiscordBotBase {
     public static final CandyBank CANDY_BANK;
     public static final DiscordAPI API;
     private static final Logger logger = LogManager.getLogger();
-    public static CommandLineArgs ARGS;
     public static CandyBot instance;
 
     static {
@@ -76,9 +74,7 @@ public final class CandyBot extends DiscordBotBase {
     }
 
     public static void main(String[] args) {
-        ARGS = CommandLineArgs.parse(args);
-
-        instance = new CandyBot(ARGS.wrap("token").orElseGet(DIR_LOGIN.createSubFile("discord.cred")::getContent));
+        instance = new CandyBot(DIR_LOGIN.createSubFile("discord.cred").getContent());
     }
 
     public static void shutdown() {
