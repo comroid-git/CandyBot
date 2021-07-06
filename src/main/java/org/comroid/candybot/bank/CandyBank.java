@@ -38,14 +38,14 @@ public final class CandyBank implements Closeable {
                 return globalVault;
             return vault;
         }
-        return vaults.wrap(id)
+        return vaults.getReference(id)
                 .filter(vault -> !vault.usesGlobalVault())
                 .orElse(globalVault);
     }
 
     public BankVault makeVault(long id) {
         FileHandle vaultFile = vaultsDir.createSubFile(String.format("vault-%d.json", id));
-        return vaults.computeIfAbsent(id, () -> new BankVault(id, vaultFile));
+        return vaults.computeIfAbsent(id, k -> new BankVault(k, vaultFile));
     }
 
     @Override
